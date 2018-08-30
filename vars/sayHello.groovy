@@ -7,7 +7,8 @@ def call(){
       stage('Stage Environments') {
         steps {
           sh '''
-          echo testing
+          ls -alt
+          pwd
           '''
         }
       }
