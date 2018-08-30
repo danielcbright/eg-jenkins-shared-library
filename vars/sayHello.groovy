@@ -1,12 +1,13 @@
 #!/usr/bin/env groovy
 
+def scriptTest = libraryResource 'script_test.txt'
+
 def call(){
   pipeline {
     agent any
     stages {
       stage('Stage Environments') {
         steps {
-          def scriptTest = libraryResource 'script_test.txt'
           writeFile file: 'scriptTest.test', text: scriptTest
           sh '''
           ls -alt
