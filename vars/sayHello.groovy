@@ -1,5 +1,22 @@
 #!/usr/bin/env groovy
 
-def call(String name = 'human') {
-  echo "Hello, ${name}."
+def call(){
+  pipeline {
+    agent any
+    stages {
+      stage('Stage Environments') {
+        steps {
+          sh '''
+          echo testing
+          '''
+        }
+      }
+      stage('Publish Environments to Production') {
+        steps {
+          input 'Publish Environments to Production Chef Server?'
+          sh 'echo testing'
+        }
+      }
+    }
+  }
 }
