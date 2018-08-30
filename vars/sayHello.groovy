@@ -1,15 +1,13 @@
 #!/usr/bin/env groovy
 
-
-
 def call(){
   pipeline {
     agent any
     stages {
       stage('Stage Environments') {
+        def rubyContent = libraryResource('script_test.txt')
+        writeFile(file: 'script_text.txt', text: rubyContent)
         steps {
-          runChefEnvJob()
-          writeFile file: 'scriptTest.test', text: scriptTest
           sh '''
           ls -alt
           pwd
