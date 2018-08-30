@@ -6,8 +6,7 @@ def call(){
     stages {
       stage('Stage Environments') {
         steps {
-          def rubyContent = libraryResource('script_test.txt')
-          writeFile(file: 'script_text.txt', text: rubyContent)
+          runChefEnvJob()
           sh '''
           ls -alt
           pwd
