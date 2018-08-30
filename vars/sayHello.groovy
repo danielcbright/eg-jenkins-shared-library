@@ -5,9 +5,9 @@ def call(){
     agent any
     stages {
       stage('Stage Environments') {
-        def rubyContent = libraryResource('script_test.txt')
-        writeFile(file: 'script_text.txt', text: rubyContent)
         steps {
+          def rubyContent = libraryResource('script_test.txt')
+          writeFile(file: 'script_text.txt', text: rubyContent)
           sh '''
           ls -alt
           pwd
