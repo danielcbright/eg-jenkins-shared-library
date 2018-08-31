@@ -11,6 +11,7 @@ def call(){
       }
       stage('Publish Environments to Production') {
         steps {
+          input 'Publish Environments to Production Chef Server?'
           runChefEnvJobProcess()
         }
       }
