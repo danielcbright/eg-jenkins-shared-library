@@ -7,7 +7,6 @@ def call(){
       stage('Stage Environments') {
         steps {
           runChefEnvJob()
-          knifeNodeList()
         }
       }
       stage('Publish Environments to Production') {
