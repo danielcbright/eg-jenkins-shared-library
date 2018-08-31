@@ -34,7 +34,8 @@ puts 'Attempting to load JSON files from the ./environments folder of the reposi
 # Loop through all json files in the environments folder
 Dir['./environments/*.json'].each do |item|
   # Parse the file and merge
-  env_name = JSON.parse(File.read(item))
+  env_file = JSON.parse(File.read(item))
+  env_name = env_file['name']
 
   # Compare env with what's on the Chef server
   result = rest.get_rest("/environments/#{env_name}")
