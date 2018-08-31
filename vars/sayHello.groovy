@@ -11,7 +11,7 @@ def call(){
           ls -alt
           pwd
           '''
-          wrap([$class: 'ChefIdentityBuildWrapper', jobIdentity: 'jenkins']) {
+          wrap([$class: 'ChefIdentityBuildWrapper', jobIdentity: 'Jenkins']) {
             sh 'knife node list -c .chef/knife.rb'
           }
         }
