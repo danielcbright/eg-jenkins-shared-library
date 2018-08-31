@@ -81,7 +81,7 @@ Dir['./environments/*.json'].each do |item|
     
     unless options[:process].nil? 
         begin
-        rest.put_rest("/environments/#{env_name}", env)
+        rest.put_rest("/environments/#{env_name}", env_file)
         puts "Successfully updated #{env_name}"
         rescue StandardError
         abort("Failed to update #{env_name}")
