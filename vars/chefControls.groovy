@@ -6,13 +6,12 @@ def call(){
     stages {
       stage('Stage Environments') {
         steps {
-          runChefEnvJob()
+          runChefEnvJobCompare()
         }
       }
       stage('Publish Environments to Production') {
         steps {
-          input 'Publish Environments to Production Chef Server?'
-          sh 'echo testing'
+          runChefEnvJobProcess()
         }
       }
     }
