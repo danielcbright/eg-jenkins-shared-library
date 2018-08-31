@@ -11,6 +11,9 @@ def call(){
           ls -alt
           pwd
           '''
+          wrap([$class: 'ChefIdentityBuildWrapper', jobIdentity: 'jenkins']) {
+            sh 'knife node list -c .chef/knife.rb'
+          }
         }
       }
       stage('Publish Environments to Production') {
