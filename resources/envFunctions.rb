@@ -37,6 +37,8 @@ Dir['./environments/*.json'].each do |item|
   env_file = JSON.parse(File.read(item))
   env_name = env_file['name']
 
+  puts "Working on Environment: #{env_name}\n"
+
   # Compare env with what's on the Chef server
   result = rest.get_rest("/environments/#{env_name}")
   puts "Result from Chef server for the #{env_name} environment."
