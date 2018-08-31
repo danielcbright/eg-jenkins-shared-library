@@ -5,13 +5,9 @@ def call(){
     agent any
     stages {
       stage('Stage Environments') {
-        node {
-              wrap([$class: 'ChefIdentityBuildWrapper', jobIdentity: 'Jenkins']) {
-              sh 'knife node list -c .chef/knife.rb'
-              }
-          }
         steps {
           runChefEnvJob()
+          knifeNodeList()
           sh '''
           ls -alt
           pwd
