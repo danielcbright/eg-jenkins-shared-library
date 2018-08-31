@@ -6,7 +6,7 @@ require 'chef'
 options = { knife: nil }
 
 parser = OptionParser.new do |opts|
-  opts.banner = 'Usage: envFunctions.rb [options]'
+  opts.banner = 'Usage: envFunctions.rb -k /path/to/knife.rb -c OR -p'
   opts.on('-k', '--knife /path/to/my/knife.rb', 'Knife Path') do |knife|
     options[:knife] = knife
   end
@@ -28,11 +28,11 @@ end
 parser.parse!
 
 # Ask if the user missed an option
-if options[:knife].nil? and ( options[:compare].nil? or options[:process].nil? )
+if !options[:knife].nil? || ( options[:knife].nil? && ( options[:compare].nil? || options[:process].nil? ) )
     abort(parser.help)
 end
 
-unless ( options[:compare].nil? and options[:process].nil? )
+if ( !options[:compare].nil? && !options[:process].nil? )
     puts "ERROR!!: You cannot run using the (-c)ompare and (-p)rocess arguments together, use only one or the other, all "\
          "process commands will run the compare function by default"
     abort(parser.help)
