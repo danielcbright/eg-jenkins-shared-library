@@ -34,29 +34,7 @@ puts 'Attempting to load JSON files from the ./environments folder of the reposi
 # Loop through all json files in the environments folder
 Dir['./environments/*.json'].each do |item|
   # Parse the file and merge
-
-  begin
-    bu_env = JSON.parse(File.read(item))
-    env_name = bu_env['name']
-    puts "Successfully loaded the #{env_name} environment."
-  rescue StandardError
-    abort("Failed to load the #{env_name} environment.")
-  end
-
-  begin
-    global_env = JSON.parse(File.read("/var/lib/jenkins/chef_automation/global_envs/#{env_name}.json"))
-  rescue StandardError
-    abort("Can't open /var/lib/jenkins/chef_automation/global_envs/#{env_name}.json.")
-  end
-
-  begin
-    env = Chef::Mixin::DeepMerge.deep_merge(global_env, bu_env)
-    puts "Successfully merged the #{env_name} environment."
-    puts 'Result of merge:'
-    puts JSON.pretty_generate(env)
-  rescue StandardError
-    abort("Failed to merge the #{env_name} environment.")
-  end
+  env_name = JSON.parse(File.read(item))
 
   # Compare env with what's on the Chef server
   result = rest.get_rest("/environments/#{env_name}")
@@ -84,12 +62,8 @@ Dir['./environments/*.json'].each do |item|
       end
     end
 
-    # Save a copy of the validated environment file to disk
-    File.write("/var/lib/jenkins/chef_repo/environments/#{env_name}.json", JSON.pretty_generate(env))
-
-    # Attempt to save the change to the Chef server.
     begin
-      rest.put_rest("/environments/#{env_name}", env)
+      # rest.put_rest("/environments/#{env_name}", env)
       puts "Successfully updated #{env_name}"
     rescue StandardError
       abort("Failed to update #{env_name}")
