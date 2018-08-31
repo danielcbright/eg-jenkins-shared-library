@@ -3,7 +3,7 @@ require 'optparse'
 require 'chef'
 
 # Get the options from the command line
-options = { knife: nil }
+options = { knife: nil, compare: nil, process: nil }
 
 parser = OptionParser.new do |opts|
   opts.banner = 'Usage: envFunctions.rb -k /path/to/knife.rb -c OR -p'
@@ -28,7 +28,8 @@ end
 parser.parse!
 
 # Ask if the user missed an option
-if !options[:knife].nil? || ( options[:knife].nil? && ( options[:compare].nil? || options[:process].nil? ) )
+if options[:knife].nil? || ( !options[:knife].nil? &&
+   ( options[:compare].nil? && options[:process].nil? ) )
     abort(parser.help)
 end
 
