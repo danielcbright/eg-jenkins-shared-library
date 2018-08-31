@@ -41,12 +41,12 @@ Dir['./environments/*.json'].each do |item|
   result = rest.get_rest("/environments/#{env_name}")
   puts "Result from Chef server for the #{env_name} environment."
   puts JSON.pretty_generate(result)
-  if env == result
+  if env_file == result
     puts "No change for the #{env_name} environment"
   else
     puts "Change detected in #{env_name}"
     # Verify cookbooks and versions
-    cookbooks = Marshal.load(Marshal.dump(env))
+    cookbooks = Marshal.load(Marshal.dump(env_file))
     cookbooks['cookbook_versions'].each do |cookbook, version|
       # Strip out operator characters from the json data
       version.tr!('=', '') if version.include?('=')
