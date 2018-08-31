@@ -8,10 +8,6 @@ def call(){
         steps {
           runChefEnvJob()
           knifeNodeList()
-          sh '''
-          ls -alt
-          pwd
-          '''
         }
       }
       stage('Publish Environments to Production') {
