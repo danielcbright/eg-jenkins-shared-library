@@ -15,14 +15,27 @@ parser = OptionParser.new do |opts|
     puts opts
     exit
   end
+
+  opts.on('-c', '--compare-only', 'Compare Environments and Display Output Only') do |c|
+    options[:compare] = c
+  end
+
+  opts.on('-p', '--process-envs', 'Process Environment Files (should be run only after compare)') do |p|
+    options[:process] = p
+  end
 end
 
 parser.parse!
 
 # Ask if the user missed an option
-if options[:knife].nil?
-  print 'Enter path to knife.rb: '
-  options[:knife] = gets.chomp
+if options[:knife].nil? and ( options[:compare].nil? or options[:process].nil? )
+    abort(parser.help)
+end
+
+unless ( options[:compare].nil? and options[:process].nil? )
+    puts "ERROR!!: You cannot run using the (-c)ompare and (-p)rocess arguments together, use only one or the other, all "\
+         "process commands will run the compare function by default"
+    abort(parser.help)
 end
 
 # Setup connection to Chef Server
@@ -46,7 +59,7 @@ Dir['./environments/*.json'].each do |item|
   if env_file == result
     puts "No change for the #{env_name} environment"
   else
-    puts "Change detected in #{env_name}"
+    puts "Change detected in #{env_name}, validating cookbook pins"
     # Verify cookbooks and versions
     cookbooks = Marshal.load(Marshal.dump(env_file))
     cookbooks['cookbook_versions'].each do |cookbook, version|
@@ -64,12 +77,14 @@ Dir['./environments/*.json'].each do |item|
         abort("FAILURE! Couldn't find #{cookbook}/#{version} on Chef server.")
       end
     end
-
-    begin
-      # rest.put_rest("/environments/#{env_name}", env)
-      puts "Successfully updated #{env_name}"
-    rescue StandardError
-      abort("Failed to update #{env_name}")
+    
+    unless options[:process].nil? 
+        begin
+        rest.put_rest("/environments/#{env_name}", env)
+        puts "Successfully updated #{env_name}"
+        rescue StandardError
+        abort("Failed to update #{env_name}")
+        end
     end
   end
 end
