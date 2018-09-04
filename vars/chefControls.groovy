@@ -3,6 +3,9 @@
 def call() {
   pipeline {
     agent any
+    triggers {
+        issueCommentTrigger('.*test this please.*')
+    }
     stages {
       stage('Prepare Chef Objects') {
         parallel {
