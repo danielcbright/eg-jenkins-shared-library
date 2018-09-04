@@ -55,7 +55,7 @@ Dir['./environments/*.json'].each do |item|
 
   # Compare env with what's on the Chef server
   result = rest.get_rest("/environments/#{env_name}")
-  puts "Result from Chef server for the #{env_name} environment."
+  puts "Result from Chef server for the #{env_name} environment (Current)."
   puts JSON.pretty_generate(result)
   if env_file == result
     puts "No change for the #{env_name} environment"
