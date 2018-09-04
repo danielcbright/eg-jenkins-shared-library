@@ -3,7 +3,9 @@
 def call() {
   pipeline {
     agent any
-    
+    triggers {
+        issueCommentTrigger('.*test this please.*')
+    }
     stages {
       stage('Prepare Chef Objects') {
         parallel {
@@ -13,9 +15,9 @@ def call() {
             }
           }
           stage('Stage Data Bags') {
-            steps (
+            steps {
               runDataBagCompare()
-            )
+            }
           }
         }
       }
@@ -38,4 +40,3 @@ def call() {
     }
   }
 }
-
