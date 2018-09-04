@@ -8,14 +8,16 @@ def call() {
     }
     stages {
       stage('Prepare Chef Objects') {
-        stage('Stage Environments') {
-          steps {
-            runChefEnvJobCompare()
+        parallel {
+          stage('Stage Environments') {
+            steps {
+              runChefEnvJobCompare()
+            }
           }
-        }
-        stage('Stage Data Bags') {
-          steps {
-            runDataBagCompare()
+          stage('Stage Data Bags') {
+            steps {
+              runDataBagCompare()
+            }
           }
         }
       }
