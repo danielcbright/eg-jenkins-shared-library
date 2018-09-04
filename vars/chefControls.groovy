@@ -11,17 +11,17 @@ def call() {
         steps {
           envFunctionsPrep()
         }
-      }
-      stage('Prepare Chef Objects') {
-        parallel {
-          stage('Stage Environments') {
-            steps {
-              runChefEnvJobCompare()
+        stages('Prepare Chef Objects') {
+          parallel {
+            stage('Stage Environments') {
+              steps {
+                runChefEnvJobCompare()
+              }
             }
-          }
-          stage('Stage Data Bags') {
-            steps {
-              runDataBagCompare()
+            stage('Stage Data Bags') {
+              steps {
+                runDataBagCompare()
+              }
             }
           }
         }
