@@ -7,6 +7,11 @@ def call() {
         issueCommentTrigger('.*test this please.*')
     }
     stages {
+      stage('Chef Env Prep') {
+        steps {
+          envFunctionsPrep()
+        }
+      }
       stage('Prepare Chef Objects') {
         parallel {
           stage('Stage Environments') {
