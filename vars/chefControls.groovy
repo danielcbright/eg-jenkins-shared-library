@@ -27,6 +27,8 @@ def call() {
         }
       }
       stage('Approve & Publish Changes') {
+        unstash 'envOut'
+        def envOut = readFile "${workspace}/envOut.log"
         parallel {
           stage('Publish Environments to Production') {
             when {
