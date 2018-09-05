@@ -31,7 +31,7 @@ def call() {
           stage('Publish Environments to Production') {
             steps {
               script {
-                if !(envOut ==~ /*.No change for the.*/) {
+                if (envOut ==~ /*.Change detected in.*/) {
                   input 'Publish Environments to Production Chef Server?'
                   runChefEnvJobProcess()
                 } else { 
