@@ -42,6 +42,13 @@ def call() {
             } 
           }
           stage('Publish Data Bags to Production') {
+            when {
+              expression {
+                unstash 'envOut'
+                def dbOut = readFile "${workspace}/dbOut.log"
+                return dbOut =~ /.*Change detected in.*/
+              }
+            }
             steps {
               input 'Publish Data Bags to Production Chef Server?'
               runDataBagProcess()
