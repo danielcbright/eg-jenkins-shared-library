@@ -33,7 +33,7 @@ def call() {
               expression {
                 unstash 'envOut'
                 def envOut = readFile "${workspace}/envOut.log"
-                envOut =~ /.*Change detected in.*/
+                envOut =~ /.*No change for the.*/
               }
             }
             steps {
