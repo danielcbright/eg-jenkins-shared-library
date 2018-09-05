@@ -34,10 +34,9 @@ def call() {
               match.matches()
             }
             steps {
-                input 'Publish Environments to Production Chef Server?'
-                runChefEnvJobProcess()
-              } 
-            }
+              input 'Publish Environments to Production Chef Server?'
+              runChefEnvJobProcess()
+            } 
           }
           stage('Publish Data Bags to Production') {
             steps {
