@@ -27,10 +27,10 @@ def call() {
         }
       }
       stage('Approve & Publish Changes') {
-        unstash 'envOut'
-        def envOut = readFile "${workspace}/envOut.log"
         parallel {
           stage('Publish Environments to Production') {
+            unstash 'envOut'
+            def envOut = readFile "${workspace}/envOut.log"
             when {
               expression {
                 return envOut =~ /.*Change detected in.*/
