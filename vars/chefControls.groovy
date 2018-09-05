@@ -29,8 +29,9 @@ def call() {
       stage('Approve & Publish Changes') {
         parallel {
           stage('Publish Environments to Production') {
+            def match = envOut =~ /.*Change detected in.*/
             when {
-              envOut ==~ /*.Change detected in.*/)
+              match.matches()
             }
             steps {
                 input 'Publish Environments to Production Chef Server?'
