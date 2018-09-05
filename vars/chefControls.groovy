@@ -30,8 +30,14 @@ def call() {
         parallel {
           stage('Publish Environments to Production') {
             steps {
-              input 'Publish Environments to Production Chef Server?'
-              runChefEnvJobProcess()
+              script {
+                if !(envOut ==~ /*.No change for the.*/) {
+                  input 'Publish Environments to Production Chef Server?'
+                  runChefEnvJobProcess()
+                } else { 
+                  echo 'No changes detected for Chef Environments'
+                }
+              } 
             }
           }
           stage('Publish Data Bags to Production') {
