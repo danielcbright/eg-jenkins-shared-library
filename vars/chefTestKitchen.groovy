@@ -2,7 +2,7 @@
 def call() {
     node {
         wrap([$class: 'ChefIdentityBuildWrapper', jobIdentity: 'Jenkins']) {
-        sh 'kitchen test'
+        sh 'kitchen test ${workspace}/'
         }
     }
 }
