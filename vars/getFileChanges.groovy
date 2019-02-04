@@ -10,6 +10,7 @@ def call() {
             def entry = entries[j]
             def files = new ArrayList(entry.affectedFiles)
                 for (int k = 0; k < files.size(); k++) {
+                    def file = files[k]
                     changeString += "${file.path}\n"
                 }
         }
