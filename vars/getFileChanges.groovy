@@ -15,6 +15,7 @@ def call() {
             }
             return changeString;
         }
+        return changeString;
     }
 
     if (!changeString) {
