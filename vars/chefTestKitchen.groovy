@@ -3,6 +3,6 @@ def call() {
         wrap([$class: 'ChefIdentityBuildWrapper', jobIdentity: 'Jenkins']) {
         sh 'ls -alt'
         sh 'pwd'
-        sh 'kitchen test'
+        sh 'kitchen test -d always'
         }
 }
