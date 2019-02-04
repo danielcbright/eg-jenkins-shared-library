@@ -17,7 +17,7 @@ def call() {
     if (!changeString) {
         changeString = " - No new changes"
     }
-    sh """echo $changeString >> changedFiles.txt"""
+    sh """echo \"$changeString\" >> changedFiles.txt"""
     sh 'cat changedFiles.txt'
     return changeString
 }
