@@ -20,10 +20,10 @@ def changes() {
     if (!changeString) {
         changeString = " - No new changes"
     }
-    echo "$changeString"
+    return changeString
 }
 
 
 def call() {
-    changes()
+    echo "${changes()}"
 }
