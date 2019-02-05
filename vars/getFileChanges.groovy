@@ -1,6 +1,5 @@
 def call() {
     echo "Gathering SCM changes"
-    sh 'touch changedFiles.txt'
     def changeString = "# This file contains a list of files changed since the last commit\n"
     def changeLogSets = currentBuild.changeSets
     for (int i = 0; i < changeLogSets.size(); i++) {
@@ -18,6 +17,5 @@ def call() {
     if (!changeString) {
         changeString = " - No new changes"
     }
-    sh "echo \"$changeString\" >> changedFiles.txt"
-    sh 'cat changedFiles.txt'
+    return changeString
 }
