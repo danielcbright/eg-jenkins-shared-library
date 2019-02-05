@@ -20,7 +20,7 @@ def changes() {
     if (!changeString) {
         changeString = " - No new changes"
     }
-    return changeString
+    echo "$changeString"
 }
 
 
