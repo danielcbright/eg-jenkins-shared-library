@@ -1,4 +1,3 @@
-@NonCPS
 def call() {
     echo "Gathering SCM changes"
     sh 'touch changedFiles.txt'
