@@ -1,6 +1,6 @@
+def changeString = null
 def call() {
     echo "Gathering SCM changes"
-    def changeString = null
     changeString = "# This file contains a list of files changed since the last commit\n"
     def changeLogSets = currentBuild.changeSets
     for (int i = 0; i < changeLogSets.size(); i++) {
