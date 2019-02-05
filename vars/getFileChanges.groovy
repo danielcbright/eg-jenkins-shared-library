@@ -1,8 +1,3 @@
-import groovy.transform.Field
-
-@Field
-def changeString = ""
-
 def changes() {
     echo "Gathering SCM changes"
     def changeLogSets = currentBuild.changeSets
