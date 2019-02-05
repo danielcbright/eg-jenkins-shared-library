@@ -1,4 +1,6 @@
-def call() {
+def changes() {
+    def changeString = ""
+
     echo "Gathering SCM changes"
     def changeLogSets = currentBuild.changeSets
     for (int i = 0; i < changeLogSets.size(); i++) {
@@ -12,4 +14,14 @@ def call() {
             }
         }
     }
+
+    if (!changeString) {
+        changeString = " - No new changes"
+    }
+    return changeString
+}
+
+
+def call() {
+    changes()"
 }
