@@ -1,5 +1,9 @@
 def changes() {
     echo "Gathering SCM changes"
+    script {
+        def constants = constants()
+        def changeString = constants.changeString
+    } 
     def changeLogSets = currentBuild.changeSets
     if (changeLogSets != null) {
         for (int i = 0; i < changeLogSets.size(); i++) {
