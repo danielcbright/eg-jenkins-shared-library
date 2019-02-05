@@ -9,7 +9,7 @@ def call() {
             def files = new ArrayList(entry.affectedFiles)
             for (int k = 0; k < files.size(); k++) {
                 def file = files[k]
-                changeString = changeString + " ${file.path}"
+                changeString += " ${file.path}"
             }
         }
     }
