@@ -1,8 +1,6 @@
-import groovy.transform.Field
+changeString = ""
 
 def changes() {
-    changeString = ""
-
     echo "Gathering SCM changes"
     def changeLogSets = currentBuild.changeSets
     if (changeLogSets != null) {
