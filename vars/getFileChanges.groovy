@@ -1,8 +1,8 @@
 def changes() {
-    def changeString = ""
+    @Field String changeString = ""
 
     echo "Gathering SCM changes"
-    @Field String changeLogSets = currentBuild.changeSets
+    def changeLogSets = currentBuild.changeSets
     if (changeLogSets != null) {
         for (int i = 0; i < changeLogSets.size(); i++) {
             def entries = changeLogSets[i].items
