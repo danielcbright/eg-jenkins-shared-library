@@ -1,3 +1,5 @@
+import groovy.transform.Field
+
 def changes() {
     @Field String changeString = ""
 
