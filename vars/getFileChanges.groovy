@@ -17,7 +17,7 @@ def changes() {
             }
         }
     }
-    return changeString
+    echo "$changeString"
 }
 
 
