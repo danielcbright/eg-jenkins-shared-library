@@ -1,7 +1,7 @@
 import groovy.transform.Field
 
 def changes() {
-    @Field String filesChanged = "changeString\n"
+    String filesChanged = "changeString\n"
     echo "Gathering SCM changes"
     def changeLogSets = currentBuild.changeSets
     if (changeLogSets != null) {
