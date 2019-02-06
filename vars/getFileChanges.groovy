@@ -1,6 +1,4 @@
-import groovy.transform.Field
-
-def changes() {
+def call() {
     String filesChanged = "changeString\n"
     echo "Gathering SCM changes"
     def changeLogSets = currentBuild.changeSets
@@ -18,9 +16,4 @@ def changes() {
         }
     }
     return filesChanged
-}
-
-
-def call() {
-    echo "${changes()}"
 }
