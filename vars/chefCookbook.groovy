@@ -2,7 +2,7 @@ def call() {
 pipeline {
   agent any
   stages {
-    stage('gathering Commit Info') {
+    stage('prepping environment') {
         steps {
             echo "Checking for changed files in PR"
             script {
@@ -12,15 +12,7 @@ pipeline {
             sh "echo \"${changedFiles}\" >> changedFiles.txt"
             sh 'cat changedFiles.txt'
             stash includes: "changedFiles.txt", name: 'changedFiles'
-        }
-    }
-    stage('prepping Chef Environment'){
-        steps {
             envFunctionsPrep()
-        }
-    }
-    stage('tar Cookbook for Testing') {
-        steps {
             sh '''
             base=$(basename $PWD)
             cd ..
@@ -32,9 +24,9 @@ pipeline {
             stash includes: "cookbook.tar.gz", name: 'cookbook'
         }
     }
-    stage('Cookbook Testing') {
+    stage('cookbook testing') {
       parallel {
-        stage('run Test Kitchen') {
+        stage('kitchen test') {
           steps {
             unstash 'cookbook'
             sh 'tar --strip-components=1 -zxvf cookbook.tar.gz'
@@ -42,7 +34,7 @@ pipeline {
             //chefTestKitchen()
           }
         }
-        stage('check metadata.rb') {
+        stage('metadata.rb') {
           steps {
             unstash 'changedFiles'
             sh 'grep -Fxq "metadata.rb" changedFiles.txt'
@@ -53,29 +45,29 @@ pipeline {
             chefSpec()
           }
         }
-        stage('Attrbutes') {
+        stage('attrbutes') {
           steps {
             echo 'test'
           }
         }
-        stage('ReadMe') {
+        stage('README.md') {
           steps {
             echo 'test'
           }
         }
-        stage('Libraries') {
+        stage('libraries') {
           steps {
             echo 'test'
           }
         }
-        stage('Files/Templates') {
+        stage('files/templates') {
           steps {
             echo 'test'
           }
         }
       }
     }
-    stage('Unit Test') {
+    stage('unit test') {
       parallel {
         stage('Syntax Check') {
           steps {
@@ -89,11 +81,11 @@ pipeline {
         }
       }
     }
-    stage('Syntax Check') {
+    stage('syntax check') {
       parallel {
-        stage('Syntax Check') {
+        stage('chefSpec') {
           steps {
-            echo 'test'
+            chefSpec()
           }
         }
         stage('Cookstyle') {
@@ -103,7 +95,7 @@ pipeline {
         }
       }
     }
-    stage('Lint Check') {
+    stage('lint check') {
       parallel {
         stage('Lint Check') {
           steps {
