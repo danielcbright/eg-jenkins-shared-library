@@ -13,10 +13,11 @@ pipeline {
             stash includes: "changedFiles.txt", name: 'changedFiles'
         }
     }
-    stage('Prepping Chef Environment')
+    stage('Prepping Chef Environment'){
         steps {
             envFunctionsPrep()
         }
+    }
     stage('tar Cookbook for Testing') {
         steps {
             sh '''
