@@ -1,8 +1,7 @@
+@groovy.transform.Field
+def changeString = [:]
 def changes() {
     echo "Gathering SCM changes"
-    script { 
-        def changeString = ""
-    }
     def changeLogSets = currentBuild.changeSets
     if (changeLogSets != null) {
         for (int i = 0; i < changeLogSets.size(); i++) {
