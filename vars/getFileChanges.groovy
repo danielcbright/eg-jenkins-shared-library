@@ -10,7 +10,7 @@ def call() {
                 def files = new ArrayList(entry.affectedFiles)
                 for (int k = 0; k < files.size(); k++) {
                     def file = files[k]
-                    filesChanged.concat("${file.path}\n")
+                    filesChanged += "${file.path}\n"
                 }
             }
         }
