@@ -1,7 +1,7 @@
 def changes() {
     echo "Gathering SCM changes"
     script { 
-        changeString = ""
+        def changeString = ""
     }
     def changeLogSets = currentBuild.changeSets
     if (changeLogSets != null) {
