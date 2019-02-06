@@ -1,6 +1,6 @@
-import groovy.transform.Field
-@Field String changeString = "changeString\n"
 def changes() {
+    import groovy.transform.Field
+    @Field String filesChanged = "changeString\n"
     echo "Gathering SCM changes"
     def changeLogSets = currentBuild.changeSets
     if (changeLogSets != null) {
@@ -11,12 +11,12 @@ def changes() {
                 def files = new ArrayList(entry.affectedFiles)
                 for (int k = 0; k < files.size(); k++) {
                     def file = files[k]
-                    changeString.concat("${file.path}\n")
+                    filesChanged.concat("${file.path}\n")
                 }
             }
         }
     }
-    echo "$changeString"
+    echo "$filesChanged"
 }
 
 
