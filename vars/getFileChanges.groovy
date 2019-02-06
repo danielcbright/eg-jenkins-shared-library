@@ -17,7 +17,7 @@ def changes() {
             }
         }
     }
-    echo "$filesChanged"
+    return filesChanged
 }
 
 
