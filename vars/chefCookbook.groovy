@@ -2,7 +2,7 @@ def call() {
 pipeline {
   agent any
   stages {
-    stage('Chef Env Prep') {
+    stage('gathering Commit Info') {
         steps {
             echo "Checking for changed files in PR"
             script {
@@ -14,7 +14,7 @@ pipeline {
             stash includes: "changedFiles.txt", name: 'changedFiles'
         }
     }
-    stage('Prepping Chef Environment'){
+    stage('prepping Chef Environment'){
         steps {
             envFunctionsPrep()
         }
