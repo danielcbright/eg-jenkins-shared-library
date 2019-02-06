@@ -12,7 +12,7 @@ def changes() {
                 def files = new ArrayList(entry.affectedFiles)
                 for (int k = 0; k < files.size(); k++) {
                     def file = files[k]
-                    appendString("${file.path}\n")
+                    assert appendString() = "${file.path}\n"
                 }
             }
         }
