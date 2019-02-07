@@ -24,7 +24,7 @@ def call () {
     }
 
     sh """
-    function version { echo "$@" | gawk -F. '{ printf(\"%03d%03d%03d\n\", $1,$2,$3); }'; }
+    function version { echo "\$@" | gawk -F. '{ printf(\"%03d%03d%03d\n\", \$1,\$2,\$3); }'; }
     if [ \"$(version \"$cookbookVersion\")\" -gt \"$(version \"$cookbookHigestVersionChef\")\" ];
         echo \"local version is higher than Chef Server\"
     fi
