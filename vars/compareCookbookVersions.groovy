@@ -23,5 +23,9 @@ def call () {
         echo "Cookbook Name:${cookbookName} metadata.rb version:${cookbookVersion} version on Chef Server:${cookbookHighestVersionChef}"
     }
 
-    assert cookbookVersion > cookbookHighestVersionChef
+    if ( cookbookVersion > cookbookHighestVersionChef ) {
+        echo "local cookbook version [${cookbookVersion}] is higher than Chef Server version [${cookbookHighestVersionChef}]"
+    } else {
+        sh "exit 1"
+    }
 }
