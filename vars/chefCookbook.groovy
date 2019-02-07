@@ -42,7 +42,7 @@ pipeline {
             echo "Check if version in metadata.rb is higher than what's currently on the Chef Server"
             script {
               cookbookName = sh (
-                  script: 'sed -e "s/^\'//" -e "s/\'$//" <<< `awk \'{for (I=1;I<=NF;I++) if ($I == "name") {print $(I+1)};}\' metadata.rb',
+                  script: 'sed -e "s/^\'//" -e "s/\'$//" <<< `awk \'{for (I=1;I<=NF;I++) if ($I == "name") {print $(I+1)};}\' metadata.rb`',
                   returnStdout: true
               ).trim()
             }
