@@ -16,7 +16,7 @@ def call () {
         env.SSL_CERT_DIR= "${workspace}/.chef/trusted_certs/"
         script {
             cookbookHighestVersionChef = sh (
-                script: "knife cookbook show ${cookbookName} | awk '{print \$2;}"
+                script: "knife cookbook show ${cookbookName} | awk '{print \$2;}",
                 returnStdout: true
             ).trim()
         }
