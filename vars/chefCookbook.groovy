@@ -24,20 +24,29 @@ pipeline {
             stash includes: "cookbook.tar.gz", name: 'cookbook'
         }
     }
-    stage('cookbook testing') {
+    stage('PR housekeeping') {
       parallel {
-        stage('kitchen test') {
-          steps {
-            unstash 'cookbook'
-            sh 'tar --strip-components=1 -zxvf cookbook.tar.gz'
-            sh 'ls -alt'
-            //chefTestKitchen()
-          }
-        }
+        // stage('kitchen test') {
+        //   steps {
+        //     unstash 'cookbook'
+        //     sh 'tar --strip-components=1 -zxvf cookbook.tar.gz'
+        //     sh 'ls -alt'
+        //     //chefTestKitchen()
+        //   }
+        // }
         stage('metadata.rb') {
           steps {
-            unstash 'changedFiles'
-            sh 'grep -Fxq "metadata.rb" changedFiles.txt'
+            unstash 'cookbook'
+            echo "Check if metadata.rb was updated"
+            sh 'grep -Fx "metadata.rb" changedFiles.txt'
+            echo "Check if version in metadata.rb is higher than what's currently on the Chef Server"
+            script {
+              cookbookName = sh (
+                  script: 'sed -e "s/^\'//" -e "s/\'$//" <<< `awk \'{for (I=1;I<=NF;I++) if ($I == "name") {print $(I+1)};}\' metadata.rb',
+                  returnStdout: true
+              ).trim()
+            }
+            echo "${cookbookName}"
           }
         }
         stage('syntax check') {
