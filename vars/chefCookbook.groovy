@@ -36,11 +36,13 @@ pipeline {
           steps {
             unstash 'cookbook'
             echo 'checking for existance of README.md'
-            if (File("README.md").exists()) {
-                echo 'performing markdown lint check on README.md'
-                sh '/opt/rh/rh-ruby22/root/usr/local/share/gems/gems/mdl-0.5.0/bin/mdl README.md'
-            } else {
-                error("README.md doesn't exist, please create one!")
+            script {
+                if (File("README.md").exists()) {
+                    echo 'performing markdown lint check on README.md'
+                    sh '/opt/rh/rh-ruby22/root/usr/local/share/gems/gems/mdl-0.5.0/bin/mdl README.md'
+                } else {
+                    error("README.md doesn't exist, please create one!")
+                }
             }
           }
         }
