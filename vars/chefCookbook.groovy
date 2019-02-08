@@ -39,7 +39,10 @@ pipeline {
             script {
                 if (fileExists('README.md')) {
                     echo 'performing markdown lint check on README.md'
-                    sh '/opt/rh/rh-ruby22/root/usr/local/share/gems/gems/mdl-0.5.0/bin/mdl README.md'
+                    sh '''
+                    scl enable rh-ruby22 bash
+                    /opt/rh/rh-ruby22/root/usr/local/share/gems/gems/mdl-0.5.0/bin/mdl README.md
+                    '''
                 } else {
                     error("README.md doesn't exist, please create one!")
                 }
