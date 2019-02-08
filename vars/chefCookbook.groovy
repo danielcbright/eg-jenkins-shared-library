@@ -24,92 +24,83 @@ pipeline {
             stash includes: "cookbook.tar.gz", name: 'cookbook'
         }
     }
-    stage('PR housekeeping') {
+    stage('PR validation') {
       parallel {
-        // stage('kitchen test') {
-        //   steps {
-        //     unstash 'cookbook'
-        //     sh 'tar --strip-components=1 -zxvf cookbook.tar.gz'
-        //     sh 'ls -alt'
-        //     //chefTestKitchen()
-        //   }
-        // }
-        stage('metadata.rb') {
+        stage('validate metadata.rb') {
           steps {
             unstash 'cookbook'
-            echo "Check if metadata.rb was updated"
-            sh 'grep -Fx "metadata.rb" changedFiles.txt'
             compareCookbookVersions()
           }
         }
-        stage('syntax check') {
+        stage('validate README.md') {
           steps {
-            chefSpec()
+            unstash 'cookbook'
+            echo 'checking for existance of README.md'
+            if (File("README.md").exists()) {
+                echo 'performing markdown lint check on README.md'
+                sh '/opt/rh/rh-ruby22/root/usr/local/share/gems/gems/mdl-0.5.0/bin/mdl README.md'
+            } else {
+                error("README.md doesn't exist, please create one!")
+            }
           }
         }
-        stage('attrbutes') {
-          steps {
-            echo 'test'
-          }
-        }
-        stage('README.md') {
-          steps {
-            echo 'test'
-          }
-        }
+      }
+    }
+    stage('style lint (cookstyle)') {
+      parallel {
         stage('libraries') {
           steps {
-            echo 'test'
+            unstash 'cookbook'
+            echo 'running cookstyle on libraries'
+            chefCookstyle('libraries')
           }
         }
         stage('files/templates') {
           steps {
-            echo 'test'
+            unstash 'cookbook'
+            echo 'running cookstyle on templates'
+            chefCookstyle('templates')
+          }
+        }
+        stage('attributes') {
+          steps {
+            unstash 'cookbook'
+            echo 'running cookstyle on attributes'
+            chefCookstyle('attributes')
+          }
+        }
+        stage('recipes') {
+          steps {
+            unstash 'cookbook'
+            echo 'running cookstyle on recipes'
+            chefCookstyle('recipes')
           }
         }
       }
     }
-    stage('unit test') {
+    stage('syntax & logic lint') {
       parallel {
-        stage('Syntax Check') {
+        stage('foodcritic') {
           steps {
+            unstash 'cookbook'
+            foodCritic()
+          }
+        }
+        stage('chefspec') {
+          steps {
+            unstash 'cookbook'
             chefSpec()
           }
         }
-        stage('Chefspec') {
-          steps {
-            echo 'test'
-          }
-        }
       }
     }
-    stage('syntax check') {
-      parallel {
-        stage('chefSpec') {
-          steps {
-            chefSpec()
-          }
+    stage('convergence & inspec test') {
+        steps {
+            echo 'performing test kitchen convergence test'
+            unstash 'cookbook'
+            chefTestKitchen()
+            echo 'performing inspec test'
         }
-        stage('Cookstyle') {
-          steps {
-            echo 'test'
-          }
-        }
-      }
-    }
-    stage('lint check') {
-      parallel {
-        stage('Lint Check') {
-          steps {
-            echo 'test'
-          }
-        }
-        stage('Foodcritic') {
-          steps {
-            echo 'Test'
-          }
-        }
-      }
     }
     stage('Code Review') {
       steps {
