@@ -1,6 +1,9 @@
 def call() {
 pipeline {
   agent any
+  environment {
+    PATH = "/opt/rh/rh-ruby22/root/usr/bin:$PATH"
+  }
   stages {
     stage('prepping environment') {
         steps {
