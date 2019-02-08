@@ -37,7 +37,7 @@ pipeline {
             unstash 'cookbook'
             echo 'checking for existance of README.md'
             script {
-                if (File("README.md").exists()) {
+                if (fileExists('README.md')) {
                     echo 'performing markdown lint check on README.md'
                     sh '/opt/rh/rh-ruby22/root/usr/local/share/gems/gems/mdl-0.5.0/bin/mdl README.md'
                 } else {
