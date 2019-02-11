@@ -9,6 +9,8 @@ def call() {
             ).trim()
         }
         def data = readJSON text: "${json}"
-        echo data.cookbook_versions;
+        for (element in data.cookbook_versions) {
+            echo "${element.key} ${element.value}"
+        }
     }
 }
