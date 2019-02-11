@@ -109,13 +109,12 @@ pipeline {
         steps {
             echo 'performing test kitchen convergence test'
             unstash 'cookbook'
-            chefTestKitchen()
-            echo 'performing inspec test'
+            //chefTestKitchen()
         }
     }
-    stage('Code Review') {
+    stage("create PR's for dependent versions") {
       steps {
-        echo 'Test'
+        getCookbookVersions()
       }
     }
     stage('Publish Cookbook') {
