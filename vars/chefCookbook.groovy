@@ -125,7 +125,10 @@ pipeline {
     }
     stage('Publish Cookbook') {
       steps {
+        echo 'publishing cookbook'
+        unstash 'cookbook'
         chefPublishCookbook()
+      }
     }
     stage('Commit to Master') {
       steps {
