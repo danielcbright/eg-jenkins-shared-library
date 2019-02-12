@@ -130,6 +130,7 @@ pipeline {
         sh 'berks install'
         sh 'berks update'
         sh 'berks upload'
+        }
       }
     }
     stage('Commit to Master') {
