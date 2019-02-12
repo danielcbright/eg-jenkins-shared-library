@@ -115,7 +115,7 @@ pipeline {
         steps {
             echo 'performing test kitchen convergence test'
             unstash 'cookbook'
-            //chefTestKitchen()
+            chefTestKitchen()
         }
     }
     stage("create PR's for dependent versions") {
@@ -125,7 +125,11 @@ pipeline {
     }
     stage('Publish Cookbook') {
       steps {
-        echo 'test'
+        wrap([$class: 'ChefIdentityBuildWrapper', jobIdentity: 'Jenkins']) {
+        unstash 'cookbook'
+        sh 'berks install'
+        sh 'berks update'
+        sh 'berks upload'
       }
     }
     stage('Commit to Master') {
