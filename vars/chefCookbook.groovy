@@ -30,33 +30,33 @@ pipeline {
             stash includes: "cookbook.tar.gz", name: 'cookbook'
         }
     }
-    stage('PR validation') {
-      parallel {
-        stage('validate metadata.rb') {
-          steps {
-            unstash 'cookbook'
-            compareCookbookVersions()
-          }
-        }
-        stage('validate README.md') {
-          steps {
-            unstash 'cookbook'
-            echo 'checking for existance of README.md'
-            script {
-                if (fileExists('README.md')) {
-                    echo 'performing markdown lint check on README.md'
-                    sh '''
-                    scl enable rh-ruby22 bash
-                    /opt/rh/rh-ruby22/root/usr/local/share/gems/gems/mdl-0.5.0/bin/mdl README.md
-                    '''
-                } else {
-                    error("README.md doesn't exist, please create one!")
-                }
-            }
-          }
-        }
-      }
-    }
+    // stage('PR validation') {
+    //   parallel {
+    //     stage('validate metadata.rb') {
+    //       steps {
+    //         unstash 'cookbook'
+    //         compareCookbookVersions()
+    //       }
+    //     }
+    //     stage('validate README.md') {
+    //       steps {
+    //         unstash 'cookbook'
+    //         echo 'checking for existance of README.md'
+    //         script {
+    //             if (fileExists('README.md')) {
+    //                 echo 'performing markdown lint check on README.md'
+    //                 sh '''
+    //                 scl enable rh-ruby22 bash
+    //                 /opt/rh/rh-ruby22/root/usr/local/share/gems/gems/mdl-0.5.0/bin/mdl README.md
+    //                 '''
+    //             } else {
+    //                 error("README.md doesn't exist, please create one!")
+    //             }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
     stage('style lint (cookstyle)') {
       parallel {
         stage('libraries') {
@@ -101,6 +101,12 @@ pipeline {
           steps {
             unstash 'cookbook'
             chefSpec()
+          }
+        }
+        stage('validate metadata.rb') {
+          steps {
+            unstash 'cookbook'
+            compareCookbookVersions()
           }
         }
       }
