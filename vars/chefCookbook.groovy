@@ -28,11 +28,6 @@ pipeline {
             '''
             sh 'mv ../cookbook.tar.gz ./'
             stash includes: "cookbook.tar.gz", name: 'cookbook'
-            wrap([$class: 'ChefIdentityBuildWrapper', jobIdentity: 'Jenkins']) {
-                unstash 'sslCert'
-                env.SSL_CERT_DIR= "${workspace}/.chef/trusted_certs/"
-                sh 'env'
-            }
         }
     }
     // stage('PR validation') {
