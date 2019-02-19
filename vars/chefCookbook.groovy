@@ -125,7 +125,7 @@ pipeline {
     }
     stage("setup hub for PR creation") {
       steps {
-        withCredentials([usernamePassword(credentialsId: 'jenkins-user', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+        withCredentials([usernamePassword(credentialsId: 'd8135cad-2efa-46fa-bfb5-4aabdf9e2953', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
         sh 'echo $PASSWORD'
         echo USERNAME
         echo "username is $USERNAME"
