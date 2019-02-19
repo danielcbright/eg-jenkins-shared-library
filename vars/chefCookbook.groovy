@@ -129,7 +129,11 @@ pipeline {
         sh 'echo $PASSWORD'
         echo USERNAME
         echo "username is $USERNAME"
-}
+        }
+        sh '''git clone git@github.com:danielcbright/eg-linux-role-cookbook-g.git
+        cd eg-linux-role-cookbook-g
+        git checkout -b new_branch
+        '''
        }
     }
     stage('Publish Cookbook') {
