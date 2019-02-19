@@ -124,18 +124,23 @@ pipeline {
       }
     }
     stage("setup hub for PR creation") {
+        environment {
+                GITHUB_TOKEN = credentials('jenkins-user')
+            }
       steps {
-        withCredentials([
-        string(credentialsId: env.GITHUB_MACHINE_USER_TOKEN, variable: 'token'),
-        usernamePassword(credentialsId: env.GITHUB_MACHINE_USER_PASS, passwordVariable: 'password', usernameVariable: 'username')]) {
+          sh 'echo $GITHUB_TOKEN'
+//         withCredentials([
+//         string(credentialsId: env.GITHUB_MACHINE_USER_TOKEN, variable: 'token'),
+//         usernamePassword(credentialsId: env.GITHUB_MACHINE_USER_PASS, passwordVariable: 'password', usernameVariable: 'username')]) {
 
-        writeFile file: env.HUB_CONFIG, text: """github.com:
-- user: ${username}
-oauth_token: ${token}
-protocol: https"""
-        }
-        sh 'cat `$HUB_CONFIG`'
-      }
+//         writeFile file: env.HUB_CONFIG, text: """github.com:
+// - user: ${username}
+// oauth_token: ${token}
+// protocol: https"""
+//         }
+//         sh 'cat `$HUB_CONFIG`'
+
+       }
     }
     stage('Publish Cookbook') {
       steps {
