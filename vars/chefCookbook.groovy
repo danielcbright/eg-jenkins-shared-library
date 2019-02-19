@@ -115,12 +115,26 @@ pipeline {
         steps {
             echo 'performing test kitchen convergence test'
             unstash 'cookbook'
-            chefTestKitchen()
+            //chefTestKitchen()
         }
     }
     stage("create PR's for dependent versions") {
       steps {
         getCookbookVersions()
+      }
+    }
+    stage("setup hub for PR creation") {
+      steps {
+        withCredentials([
+        string(credentialsId: env.GITHUB_MACHINE_USER_TOKEN, variable: 'token'),
+        usernamePassword(credentialsId: env.GITHUB_MACHINE_USER_PASS, passwordVariable: 'password', usernameVariable: 'username')]) {
+
+        writeFile file: env.HUB_CONFIG, text: """github.com:
+- user: ${username}
+oauth_token: ${token}
+protocol: https"""
+        }
+        sh 'cat `$HUB_CONFIG`'
       }
     }
     stage('Publish Cookbook') {
