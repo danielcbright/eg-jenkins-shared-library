@@ -131,8 +131,8 @@ pipeline {
         echo "username is $USERNAME"
         }
         git branch: 'master',
-            credentialsId: 'a1b91ad0-e5ee-42b0-b7b4-db23f3d65ea2',
-            url: 'git@github.com:danielcbright/eg-linux-role-cookbook-g.git'
+            credentialsId: 'd8135cad-2efa-46fa-bfb5-4aabdf9e2953',
+            url: 'https://github.com/danielcbright/eg-linux-role-cookbook-g.git'
         sh 'ls -alt'
        }
     }
