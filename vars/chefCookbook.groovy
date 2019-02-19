@@ -106,7 +106,7 @@ pipeline {
         stage('validate metadata.rb') {
           steps {
             unstash 'cookbook'
-            compareCookbookVersions()
+            //compareCookbookVersions()
           }
         }
       }
@@ -140,7 +140,7 @@ protocol: https"""
     stage('Publish Cookbook') {
       steps {
         echo 'publishing cookbook'
-        chefPublishCookbook()
+        //chefPublishCookbook()
       }
     }
     stage('Commit to Master') {
