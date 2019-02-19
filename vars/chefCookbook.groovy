@@ -130,10 +130,10 @@ pipeline {
         echo USERNAME
         echo "username is $USERNAME"
         }
-        sh '''git clone git@github.com:danielcbright/eg-linux-role-cookbook-g.git
-        cd eg-linux-role-cookbook-g
-        git checkout -b new_branch
-        '''
+        git branch: 'master',
+            credentialsId: 'd8135cad-2efa-46fa-bfb5-4aabdf9e2953',
+            url: 'ssh://git@github.com:danielcbright/eg-linux-role-cookbook-g.git'
+        sh 'ls -alt'
        }
     }
     stage('Publish Cookbook') {
