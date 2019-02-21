@@ -17,7 +17,7 @@ def call() {
             trimmedVer = element.value.substring(2)
             script {
                 cookbookHighestVersionChef = sh (
-                    script: "knife cookbook show ${cookbookName} | awk '{print \$2;}'",
+                    script: "knife cookbook show ${element.key} | awk '{print \$2;}'",
                     returnStdout: true
                 ).trim()
             }
