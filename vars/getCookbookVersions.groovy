@@ -8,21 +8,26 @@ def call() {
                 returnStdout: true
             ).trim()
         }
+        def cookbooks = []
         def envData = readJSON text: "${envJson}"
         for (element in envData.cookbook_versions) {
             echo "${element.key} ${element.value}"
             trimmedVer = element.value.substring(2)
-            script {
-                cookbookJson = sh (
-                    script: "knife cookbook show ${element.key} ${trimmedVer} -F j",
-                    returnStdout: true
-                ).trim()
-            }
-            def cookbookData = readJSON text: "${cookbookJson}"
-            echo cookbookData
-            for (sourceURL in cookbookData.metadata.source_url) {
-                echo "${sourceURL.value}"
-            }
+            cookbooks.put["${element.key}", "${element.value}"]
+            // script {
+            //     cookbookJson = sh (
+            //         script: "knife cookbook show ${element.key} ${trimmedVer} -F j",
+            //         returnStdout: true
+            //     ).trim()
+            // }
+            // def cookbookData = readJSON text: "${cookbookJson}"
+            // echo cookbookData
+            // for (sourceURL in cookbookData.metadata.source_url) {
+            //     echo "${sourceURL.value}"
+            // }
+        }
+        for (cookbook in cookbooks) {
+            echo "${cookbook.key} ${cookbook.value}"
         }
     }
 }
