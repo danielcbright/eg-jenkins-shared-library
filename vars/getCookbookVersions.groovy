@@ -3,14 +3,22 @@ def call() {
         unstash 'sslCert'
         env.SSL_CERT_DIR= "${workspace}/.chef/trusted_certs/"
         script {
-            json = sh (
+            envJson = sh (
                 script: 'knife environment show dbright-dev -F j',
                 returnStdout: true
             ).trim()
         }
-        def data = readJSON text: "${json}"
-        for (element in data.cookbook_versions) {
+        def envData = readJSON text: "${envJson}"
+        for (element in envData.cookbook_versions) {
             echo "${element.key} ${element.value}"
+            cookbookJson = sh (
+                script: "knife cookbook show ${element.key} ${element.value} -F j",
+                returnStdout: true
+            ).trim()
+            def cookbookData = readJSON text: "${cookbookJson}"
+            for (element in cookbookData.source_url) {
+                echo "${element.key} ${element.value}"
+            }
         }
     }
 }
