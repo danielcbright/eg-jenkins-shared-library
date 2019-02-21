@@ -23,10 +23,10 @@ def call() {
                     returnStdout: true
                 ).trim()
             }
-            def cookbookData = readJSON text: "${cookbookJson}"
-            for (sourceURL in cookbookData.metadata.source_url) {
-                echo "${sourceURL.value}"
-            }
+            //def cookbookData = readJSON text: "${cookbookJson}"
+            // for (sourceURL in cookbookData.metadata.source_url) {
+            //     echo "${sourceURL.value}"
+            // }
         }
     }
 }
