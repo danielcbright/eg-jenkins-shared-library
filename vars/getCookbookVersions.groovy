@@ -11,10 +11,18 @@ def call() {
         def sourceURLs = []
         def cookbooks = []
         def envData = readJSON text: "${envJson}"
+        echo "Cookbooks + versions that are pinned in your environment:"
         for (element in envData.cookbook_versions) {
-            //echo "${element.key} ${element.value}"
+            echo "PINNED VERSION: ${element.key} ${element.value}"
             trimmedVer = element.value.substring(2)
-            cookbooks << "${element.key}:${trimmedVer}"
+            script {
+                cookbookHighestVersionChef = sh (
+                    script: "knife cookbook show ${cookbookName} | awk '{print \$2;}'",
+                    returnStdout: true
+                ).trim()
+            }
+            echo "UNPINNED HIGHEST: ${element.key} ${cookbookHighestVersionChef}"
+            cookbooks << "${element.key}:${cookbookHighestVersionChef}"
         }
         for (cookbook in cookbooks) {
             echo cookbook
