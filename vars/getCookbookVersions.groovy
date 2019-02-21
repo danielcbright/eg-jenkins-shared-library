@@ -17,12 +17,10 @@ def call() {
         }
         for (cookbook in cookbooks) {
             echo "${cookbook.key} ${cookbook.value}"
-            script {
-                cookbookJson = sh (
-                    script: "knife cookbook show ${cookbook.key} ${cookbook.value} -F j",
-                    returnStdout: true
-                ).trim()
-            }
+            cookbookJson = sh (
+              script: "knife cookbook show ${cookbook.key} ${cookbook.value} -F j",
+              returnStdout: true
+            ).trim()
             //def cookbookData = readJSON text: "${cookbookJson}"
             // for (sourceURL in cookbookData.metadata.source_url) {
             //     echo "${sourceURL.value}"
