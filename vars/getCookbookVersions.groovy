@@ -11,8 +11,9 @@ def call() {
         def envData = readJSON text: "${envJson}"
         for (element in envData.cookbook_versions) {
             echo "${element.key} ${element.value}"
+            trimmedVer = element.value.substring(2)
             cookbookJson = sh (
-                script: "knife cookbook show ${element.key} ${element.value} -F j",
+                script: "knife cookbook show ${element.key} ${trimmedVer} -F j",
                 returnStdout: true
             ).trim()
             def cookbookData = readJSON text: "${cookbookJson}"
