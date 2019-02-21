@@ -120,8 +120,8 @@ pipeline {
     }
     stage("gather dependent cookbook sources") {
       steps {
-        sourceURLs = getCookbookVersions()
-          script {
+        def sourceURLs = getCookbookVersions()
+        script {
           for (sourceURL in sourceURLs) {
             echo sourceURL
           }
