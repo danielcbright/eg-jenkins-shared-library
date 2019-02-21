@@ -8,7 +8,7 @@ def call() {
                 returnStdout: true
             ).trim()
         }
-        def cookbooks = []
+        def cookbooks = [:]
         def envData = readJSON text: "${envJson}"
         for (element in envData.cookbook_versions) {
             echo "${element.key} ${element.value}"
