@@ -26,7 +26,7 @@ def call() {
             }
             def cookbookData = readJSON text: "${cookbookJson}"
             for (sourceURL in cookbookData.metadata.source_url) {
-                echo "${sourceURL}"
+                echo "${sourceURL.value}"
             }
         }
     }
