@@ -13,7 +13,7 @@ def call() {
         for (element in envData.cookbook_versions) {
             echo "${element.key} ${element.value}"
             trimmedVer = element.value.substring(2)
-            cookbooks.put["${element.key}", "${element.value}"]
+            cookbooks.put("${element.key}", "${element.value}")
             // script {
             //     cookbookJson = sh (
             //         script: "knife cookbook show ${element.key} ${trimmedVer} -F j",
