@@ -18,7 +18,7 @@ def call() {
             ).trim()
             def cookbookData = readJSON text: "${cookbookJson}"
             for (cookbook in cookbookData.source_url) {
-                echo "${cookbook.key} ${cookbook.value}"
+                echo "${cookbook.value}"
             }
         }
     }
