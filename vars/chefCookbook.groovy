@@ -126,6 +126,7 @@ pipeline {
     stage("setup hub for PR creation") {
       steps {
         echo 'creating dependent prs'
+      }
     }
     stage('Publish Cookbook') {
       steps {
