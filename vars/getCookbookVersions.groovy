@@ -8,6 +8,7 @@ def call() {
                 returnStdout: true
             ).trim()
         }
+        def sourceURLs = []
         def cookbooks = []
         def envData = readJSON text: "${envJson}"
         for (element in envData.cookbook_versions) {
@@ -26,7 +27,8 @@ def call() {
             }
             def cookbookData = readJSON text: "${cookbookJson}"
             def sourceURL = cookbookData.metadata.source_url
-            echo sourceURL
+            sourceURLs << cookbookData.metadata.source_url
         }
+        return sourceURLs
     }
 }

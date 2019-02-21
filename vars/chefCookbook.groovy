@@ -118,9 +118,12 @@ pipeline {
             //chefTestKitchen()
         }
     }
-    stage("create PR's for dependent versions") {
+    stage("gather dependent cookbook sources") {
       steps {
-        getCookbookVersions()
+        sourceURLs = getCookbookVersions()
+        for (sourceURL in sourceURLs) {
+          echo sourceURL
+        }
       }
     }
     stage("setup hub for PR creation") {
