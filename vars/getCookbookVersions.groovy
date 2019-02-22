@@ -16,14 +16,9 @@ def call() {
         for (element in envData.cookbook_versions) {
             echo "PINNED VERSION: ${element.key} ${element.value}"
             def trimmedVer = element.value.substring(2)
-            script {
-                cookbookHighestVersionChef = sh (
-                    script: "knife cookbook show ${element.key} | awk '{print \$2;}'",
-                    returnStdout: true
-                ).trim()
-            }
-            echo "UNPINNED HIGHEST: ${element.key} ${cookbookHighestVersionChef}"
-            cookbooks << "${element.key}:${cookbookHighestVersionChef}"
+            def highest = getHighestVersion(element.key)
+            echo "UNPINNED HIGHEST: ${element.key} ${highest}"
+            cookbooks << "${element.key}:${highest}"
         }
         for (cookbook in cookbooks) {
             echo cookbook
@@ -40,4 +35,13 @@ def call() {
         }
         return sourceURLs
     }
+}
+def getHighestVersion(String cookbook) {
+    script {
+        cookbookHighestVersionChef = sh (
+            script: "knife cookbook show ${element.key} | awk '{print \$2;}'",
+            returnStdout: true
+        ).trim()
+    }
+    return cookbookHighestVersionChef
 }
