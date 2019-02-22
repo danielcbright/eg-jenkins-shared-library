@@ -17,13 +17,10 @@ def call() {
         for (element in envData.cookbook_versions) {
             echo "PINNED VERSION: ${element.key} ${element.value}"
             def trimmedVer = element.value.substring(2)
+            def highest = getHighestVersion("${element.key}")
+            echo "UNPINNED HIGHEST: ${element.key} ${highest}"
+            unpinnedCookbooks << "${element.key}:${highest}"
             pinnedCookbooks << "${element.key}:${trimmedVer}"
-        }
-        for (pinnedCookbook in pinnedCookbooks) {
-            def (v, z) = pinnedCookbook.split(':')
-            def highest = getHighestVersion("${v}")
-            echo "UNPINNED HIGHEST: ${v} ${highest}"
-            unpinnedCookbooks << "${v}:${highest}"
         }
         for (unpinnedCookbook in unpinnedCookbooks) {
             def (v, z) = unpinnedCookbook.split(':')
