@@ -16,23 +16,23 @@ def call() {
         for (element in envData.cookbook_versions) {
             echo "PINNED VERSION: ${element.key} ${element.value}"
             def trimmedVer = element.value.substring(2)
-            def highest = getHighestVersion("${element.key}")
-            echo "UNPINNED HIGHEST: ${element.key} ${highest}"
-            cookbooks << "${element.key}:${highest}"
+            // def highest = getHighestVersion("${element.key}")
+            //echo "UNPINNED HIGHEST: ${element.key} ${highest}"
+            //cookbooks << "${element.key}:${highest}"
         }
-        for (cookbook in cookbooks) {
-            echo cookbook
-            def (v, z) = cookbook.split(':')
-            script {
-                def cookbookJson = sh (
-                    script: "knife cookbook show ${v} ${z} -F j",
-                    returnStdout: true
-                ).trim()
-            }
-            def cookbookData = readJSON text: "${cookbookJson}"
-            def sourceURL = cookbookData.metadata.source_url
-            sourceURLs << cookbookData.metadata.source_url
-        }
+        // for (cookbook in cookbooks) {
+        //     echo cookbook
+        //     def (v, z) = cookbook.split(':')
+        //     script {
+        //         def cookbookJson = sh (
+        //             script: "knife cookbook show ${v} ${z} -F j",
+        //             returnStdout: true
+        //         ).trim()
+        //     }
+        //     def cookbookData = readJSON text: "${cookbookJson}"
+        //     def sourceURL = cookbookData.metadata.source_url
+        //     sourceURLs << cookbookData.metadata.source_url
+        // }
         return sourceURLs
     }
 }
