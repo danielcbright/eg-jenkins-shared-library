@@ -18,7 +18,11 @@ def call() {
             def trimmedVer = element.value.substring(2)
             // def highest = getHighestVersion("${element.key}")
             //echo "UNPINNED HIGHEST: ${element.key} ${highest}"
-            //cookbooks << "${element.key}:${highest}"
+            cookbooks << "${element.key}:${trimmedVer}"
+        }
+        for (cookbook in cookbooks) {
+            def highest = getHighestVersion("${element.key}")
+            echo highest
         }
         // for (cookbook in cookbooks) {
         //     echo cookbook
