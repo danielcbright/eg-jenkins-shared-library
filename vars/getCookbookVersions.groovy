@@ -16,7 +16,7 @@ def call() {
         for (element in envData.cookbook_versions) {
             echo "PINNED VERSION: ${element.key} ${element.value}"
             def trimmedVer = element.value.substring(2)
-            def highest = getHighestVersion(element.key)
+            def highest = getHighestVersion("${element.key}")
             echo "UNPINNED HIGHEST: ${element.key} ${highest}"
             cookbooks << "${element.key}:${highest}"
         }
