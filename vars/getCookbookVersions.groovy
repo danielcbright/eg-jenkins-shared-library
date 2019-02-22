@@ -27,15 +27,8 @@ def call() {
         }
         for (unpinnedCookbook in unpinnedCookbooks) {
             def (v, z) = unpinnedCookbook.split(':')
-            script {
-                def cookbookJson = sh (
-                    script: "knife cookbook show ${v} ${z} -F j",
-                    returnStdout: true
-                ).trim()
-            }
-            def cookbookData = readJSON text: "${cookbookJson}"
-            def sourceURL = cookbookData.metadata.source_url
-            sourceURLs << cookbookData.metadata.source_url
+            def sourceURL = getSourceUrl("${v}", "${z}")
+            sourceURLs << sourceURL
         }
         return sourceURLs
     }
@@ -48,4 +41,16 @@ def getHighestVersion(String cookbook) {
         ).trim()
     }
     return cookbookHighestVersionChef
+}
+
+def getSourceUrl(String cookbook, String version) {
+    script {
+        cookbookJson = sh (
+            script: "knife cookbook show ${cookbook} ${version} -F j",
+            returnStdout: true
+        ).trim()
+    }
+    def cookbookData = readJSON text: "${cookbookJson}"
+    def sourceURL = cookbookData.metadata.source_url
+    return sourceURL
 }
