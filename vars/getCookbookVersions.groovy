@@ -43,7 +43,7 @@ def call() {
 def getHighestVersion(String cookbook) {
     script {
         cookbookHighestVersionChef = sh (
-            script: "knife cookbook show ${element.key} | awk '{print \$2;}'",
+            script: "knife cookbook show ${cookbook} | awk '{print \$2;}'",
             returnStdout: true
         ).trim()
     }
