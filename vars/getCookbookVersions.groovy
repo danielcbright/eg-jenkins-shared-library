@@ -21,7 +21,7 @@ def call() {
             cookbooks << "${element.key}:${trimmedVer}"
         }
         for (cookbook in cookbooks) {
-            def highest = getHighestVersion("${element.key}")
+            def highest = getHighestVersion("${cookbook}")
             echo highest
         }
         // for (cookbook in cookbooks) {
