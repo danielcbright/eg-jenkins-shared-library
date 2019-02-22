@@ -9,34 +9,34 @@ def call() {
             ).trim()
         }
         def sourceURLs = []
-        def cookbooks = []
+        def pinnedCookbooks = []
+        def unpinnedCookbooks = []
         def envData = readJSON text: "${envJson}"
         def cookbookHighestVersionChef = ""
         echo "Cookbooks + versions that are pinned in your environment:"
         for (element in envData.cookbook_versions) {
             echo "PINNED VERSION: ${element.key} ${element.value}"
             def trimmedVer = element.value.substring(2)
-            // def highest = getHighestVersion("${element.key}")
-            //echo "UNPINNED HIGHEST: ${element.key} ${highest}"
-            cookbooks << "${element.key}:${trimmedVer}"
+            pinnedCookbooks << "${element.key}:${trimmedVer}"
         }
-        for (cookbook in cookbooks) {
-            def highest = getHighestVersion("${cookbook}")
-            echo highest
+        for (pinnedCookbook in pinnedCookbooks) {
+            def (v, z) = pinnedCookbook.split(':')
+            def highest = getHighestVersion("${v}")
+            echo "UNPINNED HIGHEST: ${v} ${highest}"
+            unpinnedCookbooks << "${v}:${highest}"
         }
-        // for (cookbook in cookbooks) {
-        //     echo cookbook
-        //     def (v, z) = cookbook.split(':')
-        //     script {
-        //         def cookbookJson = sh (
-        //             script: "knife cookbook show ${v} ${z} -F j",
-        //             returnStdout: true
-        //         ).trim()
-        //     }
-        //     def cookbookData = readJSON text: "${cookbookJson}"
-        //     def sourceURL = cookbookData.metadata.source_url
-        //     sourceURLs << cookbookData.metadata.source_url
-        // }
+        for (unpinnedCookbook in unpinnedCookbooks) {
+            def (v, z) = unpinnedCookbook.split(':')
+            script {
+                def cookbookJson = sh (
+                    script: "knife cookbook show ${v} ${z} -F j",
+                    returnStdout: true
+                ).trim()
+            }
+            def cookbookData = readJSON text: "${cookbookJson}"
+            def sourceURL = cookbookData.metadata.source_url
+            sourceURLs << cookbookData.metadata.source_url
+        }
         return sourceURLs
     }
 }
