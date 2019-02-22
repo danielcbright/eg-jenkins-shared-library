@@ -11,12 +11,13 @@ def call() {
         def sourceURLs = []
         def cookbooks = []
         def envData = readJSON text: "${envJson}"
+        def cookbookHighestVersionChef = ""
         echo "Cookbooks + versions that are pinned in your environment:"
         for (element in envData.cookbook_versions) {
             echo "PINNED VERSION: ${element.key} ${element.value}"
             def trimmedVer = element.value.substring(2)
             script {
-                def cookbookHighestVersionChef = sh (
+                cookbookHighestVersionChef = sh (
                     script: "knife cookbook show ${element.key} | awk '{print \$2;}'",
                     returnStdout: true
                 ).trim()
