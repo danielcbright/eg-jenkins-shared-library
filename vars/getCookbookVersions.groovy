@@ -14,9 +14,9 @@ def call() {
         echo "Cookbooks + versions that are pinned in your environment:"
         for (element in envData.cookbook_versions) {
             echo "PINNED VERSION: ${element.key} ${element.value}"
-            trimmedVer = element.value.substring(2)
+            def trimmedVer = element.value.substring(2)
             script {
-                cookbookHighestVersionChef = sh (
+                def cookbookHighestVersionChef = sh (
                     script: "knife cookbook show ${element.key} | awk '{print \$2;}'",
                     returnStdout: true
                 ).trim()
@@ -28,9 +28,9 @@ def call() {
             echo cookbook
             def (v, z) = cookbook.split(':')
             script {
-                cookbookJson = sh (
-                script: "knife cookbook show ${v} ${z} -F j",
-                returnStdout: true
+                def cookbookJson = sh (
+                    script: "knife cookbook show ${v} ${z} -F j",
+                    returnStdout: true
                 ).trim()
             }
             def cookbookData = readJSON text: "${cookbookJson}"
