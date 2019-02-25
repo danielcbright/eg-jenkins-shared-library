@@ -40,7 +40,7 @@ pipeline {
             unstash 'cookbook'
             script {
               cookbookInfo = compareCookbookVersions()
-              def (v, z) = cookbookInfo.split(':')
+              (v, z) = cookbookInfo.split(':')
               cookbookName = "${v}"
               cookbookVersion = "${z}"
             }
