@@ -28,4 +28,5 @@ def call () {
     } else {
         echo "local cookbook version [${cookbookVersion}] is NOT higher than Chef Server version [${cookbookHighestVersionChef}]"
     }
+    return "${cookbookName}:${cookbookVersion}"
 }

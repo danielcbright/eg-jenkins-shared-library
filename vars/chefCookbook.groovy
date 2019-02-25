@@ -38,7 +38,12 @@ pipeline {
         stage('validate metadata.rb') {
           steps {
             unstash 'cookbook'
-            compareCookbookVersions()
+            script {
+              cookbookInfo = compareCookbookVersions()
+              def (v, z) = cookbookInfo.split(':')
+              cookbookName = "${v}"
+              cookbookVersion = "${z}"
+            }
           }
         }
         stage('validate README.md') {
