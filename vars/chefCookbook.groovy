@@ -144,7 +144,7 @@ pipeline {
       steps {
         script {
           for (run in running_set) {
-            def (sUrl, cbName, cbVer) = running_set.split(';')
+            def (sUrl, cbName, cbVer) = run.split(';')
             createPRs(sUrl, cbName, cbVer)
           }
         }
