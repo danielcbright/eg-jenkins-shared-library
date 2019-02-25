@@ -129,7 +129,8 @@ pipeline {
           for (sourceURL in sourceURLs) {
             echo "${sourceURL}, ${cookbookName}, ${cookbookVersion}"
             stepName = "PR for ${sourceURL}"
-            running_set[stepName] = "sourceURL:cookbookName:cookbookVersion"
+            cookbookInfo = "${sourceURL}|${cookbookName}|${cookbookVersion}"
+            running_set[stepName] = createPRs(cookbookInfo)
             }
           }
         }
@@ -142,7 +143,7 @@ pipeline {
     stage('Create PRs') {
       steps {
         script {
-          running_set.each{ k, v -> println "${k}:${v}" }
+          parallel(running_set)
         }
       }
     }
