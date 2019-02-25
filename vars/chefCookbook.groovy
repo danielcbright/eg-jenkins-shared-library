@@ -141,11 +141,8 @@ pipeline {
       }
     }
     stage('Create PRs') {
-      steps {
-        script {
-          parallel(running_set)
-        }
-      }
+        running_set['failFast'] = false
+        parallel running_set
     }
     stage('Commit to Master') {
       steps {
