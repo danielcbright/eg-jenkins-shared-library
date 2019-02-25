@@ -1,4 +1,5 @@
 def call() {
+  def running_set = [:]
 pipeline {
   agent any
   environment {
@@ -125,7 +126,7 @@ pipeline {
         }
         script {
           for (sourceURL in sourceURLs) {
-            echo sourceURL
+            running_set["PR for ${sourceURL}"] = { createPRs("${sourceURL}") }
           }
         }
       }
@@ -135,10 +136,11 @@ pipeline {
         echo 'creating dependent prs'
       }
     }
-    stage('Publish Cookbook') {
+    stage('Create PRs') {
       steps {
-        echo 'publishing cookbook'
-        //chefPublishCookbook()
+        script {
+          parallel(running_set)
+        }
       }
     }
     stage('Commit to Master') {
