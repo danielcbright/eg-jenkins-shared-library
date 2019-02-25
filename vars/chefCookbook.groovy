@@ -133,7 +133,6 @@ pipeline {
             }
           }
         }
-      }
     }
     stage("setup hub for PR creation") {
       steps {
