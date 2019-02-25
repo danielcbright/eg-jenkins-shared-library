@@ -1,5 +1,7 @@
 def call() {
   def running_set = [:]
+  def String cookbookName = ""
+  def String cookbookVersion = ""
 pipeline {
   agent any
   environment {
@@ -120,7 +122,7 @@ pipeline {
         }
         script {
           for (sourceURL in sourceURLs) {
-            running_set["PR for ${sourceURL}"] = { createPRs("${sourceURL}") }
+            running_set["PR for ${sourceURL}"] = { createPRs("${sourceURL}", "${cookbookName}", "${cookbookVersion}") }
           }
         }
       }
