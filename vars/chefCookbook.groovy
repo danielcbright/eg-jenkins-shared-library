@@ -1,5 +1,5 @@
 def call() {
-  def running_set = [:]
+  def running_set = []
   def String cookbookName = ""
   def String cookbookVersion = ""
 pipeline {
@@ -130,7 +130,7 @@ pipeline {
             echo "${it}, ${cookbookName}, ${cookbookVersion}"
             stepName = "PR for ${it}"
             cookbookInfo = "${it};${cookbookName};${cookbookVersion}"
-            running_set[stepName] = { createPRs("'${cookbookInfo}'") }
+            running_set << cookbookInfo
             }
           }
         }
@@ -143,8 +143,10 @@ pipeline {
     stage('Create PRs') {
       steps {
         script {
-          running_set.failFast = false
-          parallel(running_set)
+          for (run in running_set) {
+            def (sUrl, cbName, cbVer) = running_set.split(';')
+            createPRs(sUrl, cbName, cbVer)
+          }
         }
       }
     }
