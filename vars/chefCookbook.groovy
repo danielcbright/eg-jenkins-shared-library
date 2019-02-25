@@ -129,7 +129,9 @@ pipeline {
           for (sourceURL in sourceURLs) {
             echo "${sourceURL}, ${cookbookName}, ${cookbookVersion}"
             stepName = "PR for ${sourceURL}"
-            running_set[stepName] = createPRs("${sourceURL}", "${cookbookName}", "${cookbookVersion}")
+            running_set[stepName] = {
+              createPRs(sourceURL, cookbookName, cookbookVersion)
+            }
             echo "${sourceURL}, ${cookbookName}, ${cookbookVersion}"
           }
         }
@@ -142,8 +144,9 @@ pipeline {
     }
     stage('Create PRs') {
       steps {
-        running_set['failFast'] = false
-        parallel running_set
+        script {
+          parallel(running_set)
+        }
       }
     }
     stage('Commit to Master') {
