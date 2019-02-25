@@ -141,7 +141,11 @@ pipeline {
       }
     }
     stage('Create PRs') {
-          parallel running_set
+      steps {
+        script {
+          parallel(running_set)
+        }
+      }
     }
     stage('Commit to Master') {
       steps {
