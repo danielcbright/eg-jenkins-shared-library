@@ -132,7 +132,7 @@ pipeline {
             running_set[stepName] = {
               createPRs(sourceURL, cookbookName, cookbookVersion)
             }
-            echo "${sourceURL}, ${cookbookName}, ${cookbookVersion}"
+            running_set.each{ k, v -> println "${k}:${v}" }
           }
         }
       }
