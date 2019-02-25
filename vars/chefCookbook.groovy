@@ -98,12 +98,6 @@ pipeline {
             foodCritic()
           }
         }
-        stage('chefspec') {
-          steps {
-            unstash 'cookbook'
-            chefSpec()
-          }
-        }
         stage('validate metadata.rb') {
           steps {
             unstash 'cookbook'
