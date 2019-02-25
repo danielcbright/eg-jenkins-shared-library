@@ -55,7 +55,7 @@ pipeline {
             //     } else {
             //         error("README.md doesn't exist, please create one!")
             //     }
-            }
+            //}
           }
         }
       }
