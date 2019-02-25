@@ -130,7 +130,7 @@ pipeline {
             echo "${it}, ${cookbookName}, ${cookbookVersion}"
             stepName = "PR for ${it}"
             cookbookInfo = "${it};${cookbookName};${cookbookVersion}"
-            running_set[stepName] = { createPRs(cookbookInfo) }
+            running_set[stepName] = { createPRs("'${cookbookInfo}'") }
             }
           }
         }
