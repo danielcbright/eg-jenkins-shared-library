@@ -128,7 +128,7 @@ pipeline {
         script {
           for (sourceURL in sourceURLs) {
             echo "${sourceURL}, ${cookbookName}, ${cookbookVersion}"
-            running_set.put("PR for ${sourceURL}", { createPRs("${sourceURL}", "${cookbookName}", "${cookbookVersion}") });
+            running_set << [("PR for ${sourceURL}"):{ createPRs("${sourceURL}", "${cookbookName}", "${cookbookVersion}") }]
             echo "${sourceURL}, ${cookbookName}, ${cookbookVersion}"
           }
         }
