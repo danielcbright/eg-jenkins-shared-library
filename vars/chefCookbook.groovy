@@ -126,10 +126,10 @@ pipeline {
           sourceURLs = getCookbookVersions()
         }
         script {
-          for (sourceURL in sourceURLs) {
-            echo "${sourceURL}, ${cookbookName}, ${cookbookVersion}"
-            stepName = "PR for ${sourceURL}"
-            cookbookInfo = "${sourceURL};${cookbookName};${cookbookVersion}"
+          sourceURLs.each {
+            echo "${it}, ${cookbookName}, ${cookbookVersion}"
+            stepName = "PR for ${it}"
+            cookbookInfo = "${it};${cookbookName};${cookbookVersion}"
             running_set[stepName] = { createPRs(cookbookInfo) }
             }
           }
