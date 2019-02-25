@@ -143,6 +143,7 @@ pipeline {
     stage('Create PRs') {
       steps {
         script {
+          running_set.failFast = false
           parallel(running_set)
         }
       }
