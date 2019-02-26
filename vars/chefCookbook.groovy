@@ -88,19 +88,13 @@ pipeline {
             foodCritic()
           }
         }
-        stage('validate metadata.rb') {
-          steps {
-            unstash 'cookbook'
-            compareCookbookVersions()
-          }
-        }
       }
     }
     stage('convergence & inspec test') {
       steps {
         echo 'performing test kitchen convergence test'
-        unstash 'cookbook'
-        chefTestKitchen()
+        //unstash 'cookbook'
+        //chefTestKitchen()
       }
     }
     stage("Lookup Dependencies") {
