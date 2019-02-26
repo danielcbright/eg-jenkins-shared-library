@@ -29,7 +29,9 @@ def call(String ckbkName, String ckbkVersion) {
         for (unpinnedCookbook in unpinnedCookbooks) {
             def (v, z) = unpinnedCookbook.split(':')
             def sourceURL = getSourceUrl("${v}", "${z}", "${ckbkName}", "${ckbkVersion}")
-            sourceURLs << sourceURL
+            if(sourceURL) {
+                sourceURLs << sourceURL
+            }
         }
         return sourceURLs
     }
@@ -53,11 +55,8 @@ def getSourceUrl(String cookbook, String version, String depName, String depVer)
     }
     def cookbookData = readJSON text: "${cookbookJson}"
     def sourceURL = cookbookData.metadata.source_url
-    echo "TEST 1:: ${depName}"
     def x = cookbookData.metadata.dependencies["${depName}"]
-    echo "TEST 1:: value ${x}"
     if(x) {
-        echo "TEST 2:: ${depName}"
         println "x value: ${x}"
         return sourceURL
     }
