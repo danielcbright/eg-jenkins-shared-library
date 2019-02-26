@@ -1,6 +1,7 @@
 def call(String cookbookInfo) {
     def (cookbookRepo, dependCookbook, newVersion) = cookbookInfo.split(';')
     echo "${cookbookRepo}, ${dependCookbook}, ${newVersion}"
+    def (httpS, gitUrl) = cookbookRepo.split('//')
     git branch: 'master',
         credentialsId: 'd8135cad-2efa-46fa-bfb5-4aabdf9e2953',
         url: "${cookbookRepo}"
@@ -28,6 +29,8 @@ def call(String cookbookInfo) {
             echo "username is $USERNAME"
             }
             echo "Version updated in metadata.rb successfully, making Git PR now."
+            sh "git remote rm origin"
+            sh "git remote add origin https://$USERNAME:$PASSWORD@${gitUrl}"
             sh 'git branch | grep -v "master" | xargs git branch -D'
             sh "git checkout -b ${dependCookbook}-${newVersion}-JenkinsAutoUpdate"
             sh 'git status'
