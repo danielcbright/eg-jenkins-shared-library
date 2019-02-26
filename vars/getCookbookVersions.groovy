@@ -28,7 +28,7 @@ def call(String ckbkName, String ckbkVersion) {
         }
         for (unpinnedCookbook in unpinnedCookbooks) {
             def (v, z) = unpinnedCookbook.split(':')
-            def sourceURL = getSourceUrl("${v}", "${z}")
+            def sourceURL = getSourceUrl("${v}", "${z}", "${ckbkName}", "${ckbkVersion}")
             sourceURLs << sourceURL
         }
         return sourceURLs
@@ -44,7 +44,7 @@ def getHighestVersion(String cookbook) {
     return cookbookHighestVersionChef
 }
 
-def getSourceUrl(String cookbook, String version) {
+def getSourceUrl(String cookbook, String version, String depName, String depVer) {
     script {
         cookbookJson = sh (
             script: "knife cookbook show ${cookbook} ${version} -F j",
@@ -53,10 +53,8 @@ def getSourceUrl(String cookbook, String version) {
     }
     def cookbookData = readJSON text: "${cookbookJson}"
     def sourceURL = cookbookData.metadata.source_url
-    def dependencies = cookbookData.metadata.dependencies
-    def x = cookbookData.find{ it.key == "${ckbkName}" }?.value
-    if(x) {
-        println "x value: ${x}"
+    if(cookbookData.containsKey(depName)) {
+        echo cookbookData.metadata.dependencies.[depName]
         return sourceURL
     }
 }
