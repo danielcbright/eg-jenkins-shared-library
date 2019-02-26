@@ -22,6 +22,7 @@ def call(String cookbookInfo) {
             // note: single quotes prevent Groovy interpolation; expansion is by Bourne Shell, which is what you want
             sh 'echo $PASSWORD'
             env.GITHUB_TOKEN = "$PASSWORD"
+            env.USERNAME = "$USERNAME"
             sh 'env'
             // also available as a Groovy variable
             echo USERNAME
