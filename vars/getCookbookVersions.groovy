@@ -54,7 +54,7 @@ def getSourceUrl(String cookbook, String version, String depName, String depVer)
     def cookbookData = readJSON text: "${cookbookJson}"
     def sourceURL = cookbookData.metadata.source_url
     echo "TEST 1:: ${depName}"
-    def x = cookbookData.metadata.dependencies."{$depName}"
+    def x = cookbookData.metadata.dependencies.["{$depName}"]
     println "${cookbookData.keySet()}"
     println "${cookbookData.metadata.dependencies.keySet()}"
     echo "TEST 1:: value ${x}"
