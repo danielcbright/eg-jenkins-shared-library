@@ -56,6 +56,7 @@ def getSourceUrl(String cookbook, String version, String depName, String depVer)
     echo "TEST 1:: ${depName}"
     def x = cookbookData.metadata.dependencies."{$depName}"
     println "${cookbookData.keySet()}"
+    println "${cookbookData.metadata.dependencies.keySet()}"
     echo "TEST 1:: value ${x}"
     if(x) {
         echo "TEST 2:: ${depName}"
