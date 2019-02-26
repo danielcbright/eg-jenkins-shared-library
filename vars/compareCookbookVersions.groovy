@@ -20,13 +20,12 @@ def call () {
                 returnStdout: true
             ).trim()
         }
-        echo "Cookbook Name:${cookbookName} metadata.rb version:${cookbookVersion} version on Chef Server:${cookbookHighestVersionChef}"
     }
 
     if ( cookbookVersion > cookbookHighestVersionChef ) {
         echo "local cookbook version [${cookbookVersion}] is higher than Chef Server version [${cookbookHighestVersionChef}]"
     } else {
-        echo "local cookbook version [${cookbookVersion}] is NOT higher than Chef Server version [${cookbookHighestVersionChef}]"
+        exit("local cookbook version [${cookbookVersion}] is NOT higher than Chef Server version [${cookbookHighestVersionChef}]")
     }
     return "${cookbookName}:${cookbookVersion}"
 }

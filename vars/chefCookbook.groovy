@@ -11,14 +11,14 @@ pipeline {
     MANPATH = "/opt/rh/rh-ruby22/root/usr/share/man:"
   }
   stages {
-    stage('prepping environment') {
+    stage('Prepping Environment') {
         steps {
             echo "Checking for changed files in PR"
             script {
                 changedFiles = getFileChanges()
             }
             sh 'touch changedFiles.txt'
-            sh "echo \"${changedFiles}\" >> changedFiles.txt"
+            sh "echo \"${changedFiles}\" > changedFiles.txt"
             sh 'cat changedFiles.txt'
             stash includes: "changedFiles.txt", name: 'changedFiles'
             envFunctionsPrep()
@@ -33,7 +33,7 @@ pipeline {
             stash includes: "cookbook.tar.gz", name: 'cookbook'
         }
     }
-    stage('PR validation') {
+    stage('PR Validation') {
       parallel {
         stage('validate metadata.rb') {
           steps {
@@ -46,26 +46,9 @@ pipeline {
             }
           }
         }
-        stage('validate README.md') {
-          steps {
-            unstash 'cookbook'
-            echo 'checking for existance of README.md'
-            // script {
-            //     if (fileExists('README.md')) {
-            //         echo 'performing markdown lint check on README.md'
-            //         sh '''
-            //         scl enable rh-ruby22 bash
-            //         /opt/rh/rh-ruby22/root/usr/local/share/gems/gems/mdl-0.5.0/bin/mdl README.md
-            //         '''
-            //     } else {
-            //         error("README.md doesn't exist, please create one!")
-            //     }
-            //}
-          }
-        }
       }
     }
-    stage('style lint (cookstyle)') {
+    stage('Style Lint (cookstyle)') {
       parallel {
         stage('libraries') {
           steps {
@@ -97,7 +80,7 @@ pipeline {
         }
       }
     }
-    stage('syntax & logic lint') {
+    stage('Syntax & Logic Test') {
       parallel {
         stage('foodcritic') {
           steps {
@@ -108,7 +91,7 @@ pipeline {
         stage('validate metadata.rb') {
           steps {
             unstash 'cookbook'
-            //compareCookbookVersions()
+            compareCookbookVersions()
           }
         }
       }
@@ -117,10 +100,10 @@ pipeline {
       steps {
         echo 'performing test kitchen convergence test'
         unstash 'cookbook'
-        //chefTestKitchen()
+        chefTestKitchen()
       }
     }
-    stage("gather dependent cookbook sources") {
+    stage("Lookup Dependencies") {
       steps {
         unstash 'cookbook'
         script {
@@ -140,11 +123,6 @@ pipeline {
           }
         }
     }
-    stage("setup hub for PR creation") {
-      steps {
-        echo 'creating dependent prs'
-      }
-    }
     stage('Create PRs') {
       steps {
         script {
@@ -154,9 +132,9 @@ pipeline {
         }
       }
     }
-    stage('Commit to Master') {
+    stage('Publish Cookbook') {
       steps {
-        echo 'test'
+        chefPublishCookbook()
       }
     }
   }
