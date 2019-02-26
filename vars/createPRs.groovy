@@ -46,10 +46,13 @@ def getDependsVersion(String dependCookbook, String newVersion) {
     return dependVersion
 }
 def bumpMinorVersion() {
-    cookbookVersion = sh (
-        script: 'sed -e "s/^\'//" -e "s/\'$//" <<< `awk \'{for (I=1;I<=NF;I++) if ($I == "version") {print $(I+1)};}\' metadata.rb`',
-        returnStdout: true
-    ).trim()
+    script {
+        cookbookVersion = sh (
+            script: 'sed -e "s/^\'//" -e "s/\'$//" <<< `awk \'{for (I=1;I<=NF;I++) if ($I == "version") {print $(I+1)};}\' metadata.rb`',
+            returnStdout: true
+        ).trim()
+    }
+    sh 'cat metadata.rb'
     def (major, minor, patch)= cookbookVersion.split('.')
     def newPatch = ++patch
     def newSemVer = "${major}.${minor}.${newPatch}"
