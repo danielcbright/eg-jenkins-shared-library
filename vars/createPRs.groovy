@@ -16,15 +16,17 @@ def call(String cookbookInfo) {
         sh 'cat metadata.rb'
         def newDependVer = getDependsVersion(dependCookbook, newVersion)
         if(newDependVer == newVersion) {
-            // withCredentials([usernamePassword(credentialsId: 'd8135cad-2efa-46fa-bfb5-4aabdf9e2953', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-            // // available as an env variable, but will be masked if you try to print it out any which way
-            // // note: single quotes prevent Groovy interpolation; expansion is by Bourne Shell, which is what you want
-            // sh 'echo $PASSWORD'
-            // // also available as a Groovy variable
-            // echo USERNAME
-            // // or inside double quotes for string interpolation
-            // echo "username is $USERNAME"
-            // }
+            withCredentials([usernamePassword(credentialsId: 'd8135cad-2efa-46fa-bfb5-4aabdf9e2953', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            // available as an env variable, but will be masked if you try to print it out any which way
+            // note: single quotes prevent Groovy interpolation; expansion is by Bourne Shell, which is what you want
+            sh 'echo $PASSWORD'
+            env.GITHUB_TOKEN = "$PASSWORD"
+            sh 'env'
+            // also available as a Groovy variable
+            echo USERNAME
+            // or inside double quotes for string interpolation
+            echo "username is $USERNAME"
+            }
             echo "Version updated in metadata.rb successfully, making Git PR now."
             sh 'git status'
             sh 'git add metadata.rb'
