@@ -27,7 +27,7 @@ def call(String cookbookInfo) {
 def getDependsVersion(String dependCookbook, String newVersion) {
     script {
         dependVersion = sh (
-            script: "sed -e \"s/^'//\" -e \"s/'$//\" <<< `cat metadata.rb | grep ${dependCookbook} | awk '{print \$4;}'`",
+            script: "sed -e \"s/^'//\" -e \"s/'\$//\" <<< `cat metadata.rb | grep ${dependCookbook} | awk '{print \$4;}'`",
             returnStdout: true
         ).trim()
     }
