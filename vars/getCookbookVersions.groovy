@@ -55,6 +55,7 @@ def getSourceUrl(String cookbook, String version, String depName, String depVer)
     def sourceURL = cookbookData.metadata.source_url
     echo "TEST 1:: ${depName}"
     def x = cookbookData.find{ it.key == "${depName}" }?.value
+    echo "TEST 1:: value ${x}"
     if(x) {
         echo "TEST 2:: ${depName}"
         println "x value: ${x}"
