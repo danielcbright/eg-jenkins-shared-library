@@ -8,6 +8,7 @@ def call(String ckbkName, String ckbkVersion) {
                 returnStdout: true
             ).trim()
         }
+        echo "TEST::: ${ckbkName}, ${ckbkVersion}"
         def sourceURLs = []
         def pinnedCookbooks = []
         def unpinnedCookbooks = []
