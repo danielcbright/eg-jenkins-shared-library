@@ -14,20 +14,13 @@ def call(String cookbookInfo) {
         sh """
         sed -i "s/depends '${dependCookbook}'.*/depends '${dependCookbook}', '= ${newVersion}'/g" metadata.rb
         """
+        bumpMinorVersion()
         sh 'cat metadata.rb'
         def newDependVer = getDependsVersion(dependCookbook, newVersion)
         if(newDependVer == newVersion) {
             withCredentials([usernamePassword(credentialsId: 'd8135cad-2efa-46fa-bfb5-4aabdf9e2953', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-            // available as an env variable, but will be masked if you try to print it out any which way
-            // note: single quotes prevent Groovy interpolation; expansion is by Bourne Shell, which is what you want
-            sh 'echo $PASSWORD'
             env.GITHUB_TOKEN = "$PASSWORD"
             env.USERNAME = "$USERNAME"
-            sh 'env'
-            // also available as a Groovy variable
-            echo USERNAME
-            // or inside double quotes for string interpolation
-            echo "username is $USERNAME"
             }
             echo "Version updated in metadata.rb successfully, making Git PR now."
             sh "git remote rm origin"
@@ -51,4 +44,15 @@ def getDependsVersion(String dependCookbook, String newVersion) {
         ).trim()
     }
     return dependVersion
+}
+def bumpMinorVersion() {
+    cookbookVersion = sh (
+        script: 'sed -e "s/^\'//" -e "s/\'$//" <<< `awk \'{for (I=1;I<=NF;I++) if ($I == "version") {print $(I+1)};}\' metadata.rb`',
+        returnStdout: true
+    ).trim()
+    def (major, minor, patch)= cookbookVersion.split('.')
+    def newPatch = ++patch
+    def newSemVer = "${major}.${minor}.${newPatch}"
+    echo "Bumping cookbook version (patch only)"
+    sh "sed \"s/^version '.*/version '${newSemVer}'/g\" metadata.rb"
 }
