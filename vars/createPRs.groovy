@@ -19,8 +19,9 @@ def call(String cookbookInfo) {
             echo "Version updated in metadata.rb successfully, making Git PR now."
             sh 'git status'
             sh 'git add metadata.rb'
-            def jobURL = env.JOB_URL
-            sh "git commit -m \"[Jenkins] Updating metadata.rb for ${dependCookbook} version: ${newVersion} dependency and testing. [${jobURL}]\""
+            def buildURL = env.BUILD_URL
+            sh "git commit -m \"[Jenkins] Updating metadata.rb for ${dependCookbook} version: ${newVersion} dependency and testing. [${buildURL}]\""
+            sh "hub commit -m \"[Jenkins] Updating metadata.rb for ${dependCookbook} version: ${newVersion} dependency and testing. [${buildURL}]\""
         }
     }
 }
