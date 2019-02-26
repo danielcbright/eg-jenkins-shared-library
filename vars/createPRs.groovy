@@ -21,7 +21,7 @@ def call(String cookbookInfo) {
             sh 'git add metadata.rb'
             def buildURL = env.BUILD_URL
             sh "git commit -m \"[Jenkins] Updating metadata.rb for ${dependCookbook} version: ${newVersion} dependency and testing. [${buildURL}]\""
-            sh "hub commit -m \"[Jenkins] Updating metadata.rb for ${dependCookbook} version: ${newVersion} dependency and testing. [${buildURL}]\""
+            sh "/usr/local/bin/hub commit -m \"[Jenkins] Updating metadata.rb for ${dependCookbook} version: ${newVersion} dependency and testing. [${buildURL}]\""
         }
     }
 }
