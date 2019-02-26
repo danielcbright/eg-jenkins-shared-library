@@ -31,7 +31,7 @@ def call(String cookbookInfo) {
             }
             echo "Version updated in metadata.rb successfully, making Git PR now."
             sh "git remote rm origin"
-            sh "git remote add origin https://$USERNAME:$PASSWORD@${gitUrl}"
+            sh "git remote add origin https://$USERNAME:$GITHUB_TOKEN@${gitUrl}"
             sh 'git branch | grep -v "master" | xargs git branch -D'
             sh "git checkout -b ${dependCookbook}-${newVersion}-JenkinsAutoUpdate"
             sh 'git status'
