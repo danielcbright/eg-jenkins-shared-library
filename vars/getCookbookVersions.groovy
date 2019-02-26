@@ -1,4 +1,4 @@
-def call() {
+def call(String ckbkName, String ckbkVersion) {
     wrap([$class: 'ChefIdentityBuildWrapper', jobIdentity: 'Jenkins']) {
         unstash 'sslCert'
         env.SSL_CERT_DIR= "${workspace}/.chef/trusted_certs/"
@@ -52,5 +52,10 @@ def getSourceUrl(String cookbook, String version) {
     }
     def cookbookData = readJSON text: "${cookbookJson}"
     def sourceURL = cookbookData.metadata.source_url
-    return sourceURL
+    def dependencies = cookbookData.metadata.dependencies
+    def x = cookbookData.find{ it.key == "${ckbkName}" }?.value
+    if(x) {
+        println "x value: ${x}"
+        return sourceURL
+    }
 }

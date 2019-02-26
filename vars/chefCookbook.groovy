@@ -114,16 +114,21 @@ pipeline {
       }
     }
     stage('convergence & inspec test') {
-        steps {
-            echo 'performing test kitchen convergence test'
-            unstash 'cookbook'
-            //chefTestKitchen()
-        }
+      steps {
+        echo 'performing test kitchen convergence test'
+        unstash 'cookbook'
+        //chefTestKitchen()
+      }
     }
     stage("gather dependent cookbook sources") {
       steps {
+        unstash 'cookbook'
         script {
-          sourceURLs = getCookbookVersions()
+          cookbookInfo = compareCookbookVersions()
+          (v, z) = cookbookInfo.split(':')
+          ckbkName = "${v}"
+          ckbkVersion = "${z}"
+          sourceURLs = getCookbookVersions(ckbkName, ckbkVersion)
         }
         script {
           sourceURLs.each {

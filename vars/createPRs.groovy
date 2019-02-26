@@ -6,7 +6,7 @@ def call(String cookbookInfo) {
             credentialsId: 'd8135cad-2efa-46fa-bfb5-4aabdf9e2953',
             url: "${cookbookRepo}"
         sh """
-        sed "s/depends\\s'${dependCookbook}'.*/depends\\s'${dependCookbook}',\\s'=\\s${newVersion}'/g" metadata.rb
+        sed "s/depends '${dependCookbook}'.*/depends '${dependCookbook}', '= ${newVersion}'/g" metadata.rb
         """
         sh 'cat metadata.rb'
     }
