@@ -28,6 +28,7 @@ def call(String cookbookInfo) {
             echo "username is $USERNAME"
             }
             echo "Version updated in metadata.rb successfully, making Git PR now."
+            sh "git checkout -b ${dependCookbook}-${newVersion}-JenkinsAutoUpdate"
             sh 'git status'
             sh 'git add metadata.rb'
             def buildURL = env.BUILD_URL
