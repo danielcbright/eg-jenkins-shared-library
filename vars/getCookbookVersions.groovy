@@ -53,7 +53,9 @@ def getSourceUrl(String cookbook, String version, String depName, String depVer)
     }
     def cookbookData = readJSON text: "${cookbookJson}"
     def sourceURL = cookbookData.metadata.source_url
+    echo "TEST 1:: ${depName}"
     if(cookbookData.containsKey(depName)) {
+        echo "TEST 2:: ${depName}"
         echo cookbookData.metadata.dependencies."${depName}"
         return sourceURL
     }
