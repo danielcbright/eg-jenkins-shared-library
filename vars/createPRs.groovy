@@ -54,7 +54,7 @@ def bumpMinorVersion() {
     }
     sh 'cat metadata.rb'
     echo "${cookbookVersion}"
-    def (major, minor, patch) = cookbookVersion.split('.')
+    def (int major, int minor, int patch) = cookbookVersion.split('.')
     echo "${major} ${minor} ${patch}"
     def newPatch = ++patch
     def newSemVer = "${major}.${minor}.${newPatch}"
