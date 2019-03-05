@@ -32,7 +32,7 @@ def call(String cookbookInfo) {
             def buildURL = env.BUILD_URL
             sh "git commit -m \"[Jenkins] Updating metadata.rb for ${dependCookbook} version: ${newVersion} dependency and testing. [${buildURL}]\""
             sh "git push --set-upstream origin ${dependCookbook}-${newVersion}-JenkinsAutoUpdate"
-            sh "/usr/local/bin/hub pull-request -m \"[Jenkins] Updating metadata.rb\" -F- <<<\"Updating metadata.rb: ${dependCookbook} version: ${newVersion} for dependency and testing. [${buildURL}]\""
+            //sh "/usr/local/bin/hub pull-request -m \"[Jenkins] Updating metadata.rb\" -F- <<<\"Updating metadata.rb: ${dependCookbook} version: ${newVersion} for dependency and testing. [${buildURL}]\""
         }
     }
 }
@@ -56,9 +56,9 @@ def bumpMinorVersion() {
     echo "${cookbookVersion}"
     def (int major, int minor, int patch) = cookbookVersion.split('.')
     echo "${major} ${minor} ${patch}"
-    patch++
-    def newSemVer = "${major}.${minor}.${patch}"
-    echo "PREV: ${cookbookVersion} NEW: ${newSemVer}"
-    echo "Bumping cookbook version (patch only)"
-    sh "sed -i \"s/^version '.*/version '${newSemVer}'/g\" metadata.rb"
+    // patch++
+    // def newSemVer = "${major}.${minor}.${patch}"
+    // echo "PREV: ${cookbookVersion} NEW: ${newSemVer}"
+    // echo "Bumping cookbook version (patch only)"
+    // sh "sed -i \"s/^version '.*/version '${newSemVer}'/g\" metadata.rb"
 }
