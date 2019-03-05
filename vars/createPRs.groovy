@@ -24,7 +24,15 @@ def call(String cookbookInfo) {
             echo "Version updated in metadata.rb successfully, making Git PR now."
             sh "git remote rm origin"
             sh "git remote add origin https://$USERNAME:$GITHUB_TOKEN@${gitUrl}"
-            sh 'git branch | grep -v "master" | xargs git branch -D'
+            script {
+                delBranches = sh (
+                    script: 'git branch | grep -v "master"'
+                    returnStdout: true
+                )trim()
+            }
+            if (delBranches != "") {
+                sh "git branch -D ${delBranches}"
+            }
             sh "git checkout -b ${dependCookbook}-${newVersion}-JenkinsAutoUpdate"
             sh 'git status'
             sh 'git add metadata.rb'
