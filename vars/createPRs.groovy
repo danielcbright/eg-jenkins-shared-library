@@ -15,7 +15,6 @@ def call(String cookbookInfo) {
         sed -i "s/depends '${dependCookbook}'.*/depends '${dependCookbook}', '= ${newVersion}'/g" metadata.rb
         """
         bumpMinorVersion()
-        sh 'cat metadata.rb'
         def newDependVer = getDependsVersion(dependCookbook, newVersion)
         if(newDependVer == newVersion) {
             withCredentials([usernamePassword(credentialsId: 'd8135cad-2efa-46fa-bfb5-4aabdf9e2953', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
@@ -60,11 +59,10 @@ def bumpMinorVersion() {
     def major = versionParts[0].toInteger()
     def minor = versionParts[1].toInteger()
     def patch = versionParts[2].toInteger()
-    sh 'cat metadata.rb'
-    echo "${cookbookVersion}"
     def newPatch = patch + 1
     def newSemVer = "${major}.${minor}.${newPatch}"
     echo "PREV: ${cookbookVersion} NEW: ${newSemVer}"
     echo "Bumping cookbook version (patch only)"
-    // sh "sed -i \"s/^version '.*/version '${newSemVer}'/g\" metadata.rb"
+    sh "sed -i \"s/^version '.*/version '${newSemVer}'/g\" metadata.rb"
+    sh 'cat metadata.rb'
 }
