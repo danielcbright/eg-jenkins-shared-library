@@ -30,7 +30,7 @@ def call(String cookbookInfo) {
                     returnStdout: true
                 )trim()
             }
-            if (delBranches != "") {
+            if (delBranches != "No branches to clean up...") {
                 sh "git branch -D ${delBranches}"
             }
             sh "git checkout -b ${dependCookbook}-${newVersion}-JenkinsAutoUpdate"
