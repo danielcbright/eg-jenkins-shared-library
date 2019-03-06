@@ -117,18 +117,20 @@ pipeline {
           }
         }
     }
+    stage('Publish Cookbook') {
+      steps {
+        deleteDir()
+        chefPublishCookbook()
+      }
+    }
     stage('Create PRs') {
       steps {
+        deleteDir()
         script {
           for (pr in prInfo) {
             createPRs(pr)
           }
         }
-      }
-    }
-    stage('Publish Cookbook') {
-      steps {
-        chefPublishCookbook()
       }
     }
   }
