@@ -26,7 +26,7 @@ def call(String cookbookInfo) {
             sh "git remote add origin https://$USERNAME:$GITHUB_TOKEN@${gitUrl}"
             script {
                 delBranches = sh (
-                    script: 'git branch | grep -v "master"',
+                    script: 'git branch | grep -v "master" || echo "No branches to clean up..."',
                     returnStdout: true
                 )trim()
             }
