@@ -97,6 +97,12 @@ pipeline {
         //chefTestKitchen()
       }
     }
+    stage('Publish Cookbook') {
+      steps {
+        deleteDir()
+        chefPublishCookbook()
+      }
+    }
     stage("Lookup Dependencies") {
       steps {
         unstash 'cookbook'
@@ -116,12 +122,6 @@ pipeline {
             }
           }
         }
-    }
-    stage('Publish Cookbook') {
-      steps {
-        deleteDir()
-        chefPublishCookbook()
-      }
     }
     stage('Create PRs') {
       steps {
