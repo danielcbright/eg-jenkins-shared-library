@@ -93,14 +93,22 @@ pipeline {
     stage('convergence & inspec test') {
       steps {
         echo 'performing test kitchen convergence test'
-        //unstash 'cookbook'
-        //chefTestKitchen()
+        deleteDir()
+        unstash 'cookbook'
+        sh 'tar -xvf cookbook.tar.gz --strip 1'
+        chefTestKitchen()
       }
     }
-    stage('Publish Cookbook') {
+    stage('Publish Cookbook & Merge PR to Master') {
       steps {
-        deleteDir()
-        chefPublishCookbook()
+        script {
+          def userInputPUB = input message: 'Publish Cookbook?',
+              parameters: [choice(name: 'Publish', choices: 'no\nyes', description: 'Choose "yes" to publish this cookbook')]
+        }
+        if (userInputPUB == 'Publish') {
+          deleteDir()
+          chefPublishCookbook()
+        }
       }
     }
     stage("Lookup Dependencies") {
@@ -125,10 +133,20 @@ pipeline {
     }
     stage('Create PRs') {
       steps {
-        deleteDir()
         script {
-          for (pr in prInfo) {
-            createPRs(pr)
+          for (prs in prInfo) {
+            def (cbURL, cbName, cbVersion) = cookbookInfo.split(';')
+            echo "+++ CREATING PR FOR: ${cbName} at source ${cbURL} +++"
+          }
+          def userInputPR = input message: 'Create Dependent PRs?',
+              parameters: [choice(name: 'Create', choices: 'no\nyes', description: 'Choose "yes" to create dependent PRs for the cookbooks listed above')]
+        }
+        if (userInputPR == 'Create') {
+          deleteDir()
+          script {
+            for (pr in prInfo) {
+              createPRs(pr)
+            }
           }
         }
       }
