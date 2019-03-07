@@ -22,10 +22,11 @@ def call () {
         }
     }
 
-    if ( cookbookVersion > cookbookHighestVersionChef ) {
+    if ( cookbookVersion == cookbookHighestVersionChef ) {
         echo "local cookbook version [${cookbookVersion}] is higher than Chef Server version [${cookbookHighestVersionChef}]"
     } else {
-        exit("local cookbook version [${cookbookVersion}] is NOT higher than Chef Server version [${cookbookHighestVersionChef}]")
+        echo "local cookbook version [${cookbookVersion}] is NOT higher than Chef Server version [${cookbookHighestVersionChef}]"
+        exit()
     }
     return "${cookbookName}:${cookbookVersion}"
 }
