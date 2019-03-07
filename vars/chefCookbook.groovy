@@ -104,10 +104,10 @@ pipeline {
         script {
           def userInputPUB = input message: 'Publish Cookbook?',
               parameters: [choice(name: 'Publish', choices: 'no\nyes', description: 'Choose "yes" to publish this cookbook')]
-        }
-        if (userInputPUB == 'Publish') {
-          deleteDir()
-          chefPublishCookbook()
+          if (userInputPUB == 'Publish') {
+            deleteDir()
+            chefPublishCookbook()
+          }
         }
       }
     }
