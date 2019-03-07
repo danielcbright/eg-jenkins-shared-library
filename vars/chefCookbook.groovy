@@ -135,7 +135,7 @@ pipeline {
       steps {
         script {
           for (prs in prInfo) {
-            def (cbURL, cbName, cbVersion) = cookbookInfo.split(';')
+            def (cbURL, cbName, cbVersion) = prInfo.split(';')
             echo "+++ CREATING PR FOR: ${cbName} at source ${cbURL} +++"
           }
           def userInputPR = input message: 'Create Dependent PRs?',

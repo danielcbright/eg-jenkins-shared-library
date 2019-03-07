@@ -8,6 +8,6 @@ def call() {
         sh 'pwd'
         sh 'berks install'
         sh 'berks update'
-        //sh 'berks upload'
+        sh 'berks upload'
         }
 }
