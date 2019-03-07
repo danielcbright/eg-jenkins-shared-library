@@ -104,7 +104,7 @@ pipeline {
         script {
           def userInputPUB = input message: 'Publish Cookbook?',
               parameters: [choice(name: 'Publish', choices: 'no\nyes', description: 'Choose "yes" to publish this cookbook')]
-          if (userInputPUB == 'Publish') {
+          if (userInputPUB == 'yes') {
             deleteDir()
             chefPublishCookbook()
           }
@@ -140,7 +140,7 @@ pipeline {
           }
           def userInputPR = input message: 'Create Dependent PRs?',
               parameters: [choice(name: 'Create', choices: 'no\nyes', description: 'Choose "yes" to create dependent PRs for the cookbooks listed above')]
-          if (userInputPR == 'Create') {
+          if (userInputPR == 'yes') {
             deleteDir()
             script {
               for (pr in prInfo) {
