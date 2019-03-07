@@ -140,12 +140,12 @@ pipeline {
           }
           def userInputPR = input message: 'Create Dependent PRs?',
               parameters: [choice(name: 'Create', choices: 'no\nyes', description: 'Choose "yes" to create dependent PRs for the cookbooks listed above')]
-        }
-        if (userInputPR == 'Create') {
-          deleteDir()
-          script {
-            for (pr in prInfo) {
-              createPRs(pr)
+          if (userInputPR == 'Create') {
+            deleteDir()
+            script {
+              for (pr in prInfo) {
+                createPRs(pr)
+              }
             }
           }
         }
