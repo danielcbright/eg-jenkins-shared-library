@@ -113,13 +113,8 @@ pipeline {
     }
     stage("Lookup Dependencies") {
       steps {
-        unstash 'cookbook'
         script {
-          cookbookInfo = compareCookbookVersions()
-          (v, z) = cookbookInfo.split(':')
-          ckbkName = "${v}"
-          ckbkVersion = "${z}"
-          sourceURLs = getCookbookVersions(ckbkName, ckbkVersion)
+          sourceURLs = getCookbookVersions(cookbookName, cookbookVersion)
         }
         script {
           sourceURLs.each {
