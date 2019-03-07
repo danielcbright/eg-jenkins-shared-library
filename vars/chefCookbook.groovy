@@ -130,7 +130,7 @@ pipeline {
       steps {
         script {
           for (prs in prInfo) {
-            def (cbURL, cbName, cbVersion) = prInfo.split(';')
+            def (cbURL, cbName, cbVersion) = prs.split(';')
             echo "+++ CREATING PR FOR: ${cbName} at source ${cbURL} +++"
           }
           def userInputPR = input message: 'Create Dependent PRs?',
