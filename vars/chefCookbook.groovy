@@ -120,7 +120,9 @@ pipeline {
     }
     stage("Create PRs") {
       when { 
-        expression { sourceURLs != null }
+        not {
+          expression { sourceURLs.isEmpty() }
+        }
       }
       steps {
         script {
