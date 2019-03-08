@@ -115,6 +115,9 @@ pipeline {
       steps {
         script {
           sourceURLs = getCookbookVersions(cookbookName, cookbookVersion)
+          if ( sourceURLs.isEmpty() ) {
+            echo "Skipping last step, no dependencies."
+          }
         }
       }
     }
