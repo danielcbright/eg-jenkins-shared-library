@@ -119,11 +119,14 @@ pipeline {
       }
     }
     if(sourceURLs?.empty) {
-      echo "No dependencies, completed build success"
+      echo "No dependencies, skipping Create PRs step, completed build success"
       currentBuild.result = 'SUCCESS'
       return
     }
     stage("Create PRs") {
+      when { 
+        expression { sourceURLs != null }
+      }
       steps {
         script {
           sourceURLs.each {
