@@ -115,12 +115,16 @@ pipeline {
       steps {
         script {
           sourceURLs = getCookbookVersions(cookbookName, cookbookVersion)
-          if(sourceURLs?.empty) {
-            echo "No dependencies, completed build success"
-            currentBuild.result = 'SUCCESS'
-            return
-          }
         }
+      }
+    }
+    if(sourceURLs?.empty) {
+      echo "No dependencies, completed build success"
+      currentBuild.result = 'SUCCESS'
+      return
+    }
+    stage("Create PRs") {
+      steps {
         script {
           sourceURLs.each {
             echo "${it}, ${cookbookName}, ${cookbookVersion}"
@@ -129,10 +133,6 @@ pipeline {
             prInfo << cookbookInfo
           }
         }
-      }
-    }
-    stage('Create PRs') {
-      steps {
         script {
           for (prs in prInfo) {
             def (cbURL, cbName, cbVersion) = prs.split(';')
