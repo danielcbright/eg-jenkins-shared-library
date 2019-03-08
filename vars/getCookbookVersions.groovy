@@ -8,7 +8,6 @@ def call(String ckbkName, String ckbkVersion) {
                 returnStdout: true
             ).trim()
         }
-        echo "TEST::: ${ckbkName}, ${ckbkVersion}"
         def sourceURLs = []
         def pinnedCookbooks = []
         def unpinnedCookbooks = []
@@ -57,7 +56,6 @@ def getSourceUrl(String cookbook, String version, String depName, String depVer)
     def sourceURL = cookbookData.metadata.source_url
     def x = cookbookData.metadata.dependencies["${depName}"]
     if(x) {
-        println "x value: ${x}"
         return sourceURL
     }
 }

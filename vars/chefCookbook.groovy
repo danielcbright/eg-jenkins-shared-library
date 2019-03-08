@@ -115,6 +115,11 @@ pipeline {
       steps {
         script {
           sourceURLs = getCookbookVersions(cookbookName, cookbookVersion)
+          if(sourceURLs?.empty) {
+            echo "No dependencies, completed build success"
+            currentBuild.result = 'SUCCESS'
+            return
+          }
         }
         script {
           sourceURLs.each {
@@ -122,9 +127,9 @@ pipeline {
             stepName = "PR for ${it}"
             cookbookInfo = "${it};${cookbookName};${cookbookVersion}"
             prInfo << cookbookInfo
-            }
           }
         }
+      }
     }
     stage('Create PRs') {
       steps {
