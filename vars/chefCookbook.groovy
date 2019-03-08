@@ -34,6 +34,11 @@ pipeline {
         }
     }
     stage('PR Validation') {
+      when {
+        not {
+          branch 'master'
+        }
+      }
       parallel {
         stage('validate metadata.rb') {
           steps {
@@ -100,6 +105,11 @@ pipeline {
       }
     }
     stage('Publish Cookbook & Merge PR to Master') {
+      when {
+        not {
+          branch 'master'
+        }
+      }
       steps {
         script {
           def userInputPUB = input message: 'Publish Cookbook?',
@@ -124,7 +134,10 @@ pipeline {
     stage("Create PRs") {
       when { 
         not {
-          expression { sourceURLs.isEmpty() }
+          anyOf {
+            branch 'master';
+            expression { sourceURLs.isEmpty() }
+          }
         }
       }
       steps {

@@ -21,11 +21,12 @@ def call () {
             ).trim()
         }
     }
-
-    if ( cookbookVersion > cookbookHighestVersionChef ) {
-        echo "PASS: local cookbook version [${cookbookVersion}] is higher than Chef Server version [${cookbookHighestVersionChef}]"
-    } else {
-        error "FAIL: local cookbook version [${cookbookVersion}] is NOT higher than Chef Server version [${cookbookHighestVersionChef}]"
+    if (env.BRANCH_NAME != "master") {
+        if ( cookbookVersion > cookbookHighestVersionChef ) {
+            echo "PASS: local cookbook version [${cookbookVersion}] is higher than Chef Server version [${cookbookHighestVersionChef}]"
+        } else {
+            error "FAIL: local cookbook version [${cookbookVersion}] is NOT higher than Chef Server version [${cookbookHighestVersionChef}]"
+        }
     }
     return "${cookbookName}:${cookbookVersion}"
 }
