@@ -122,6 +122,11 @@ pipeline {
       }
     }
     stage("Lookup Dependencies") {
+      when {
+        not {
+          branch 'master'
+        }
+      }
       steps {
         script {
           sourceURLs = getCookbookVersions(cookbookName, cookbookVersion)
