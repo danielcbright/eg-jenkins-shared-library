@@ -44,6 +44,16 @@ def call() {
     inputCOOKBOOKVERSION    = userInput.COOKBOOKVERSION?:''
     inputCHEFVERSION        = userInput.CHEFVERSION?:''
 
+    echo inputCOOKBOOKNAME
+    echo inputSUPPORTS
+    echo inputMAINTAINER
+    echo inputMAINTAINER_EMAIL
+    echo inputLICENSE
+    echo inputSHORTDESCRIPTION
+    echo inputLONGDESCRIPTION
+    echo inputCOOKBOOKVERSION
+    echo inputCHEFVERSION
+
     sh  """
         git clone https://github.com/danielcbright/eg-cookbook-template.git
         mv -T eg-cookbook-template/ ${inputCOOKBOOKNAME}/
