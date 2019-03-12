@@ -50,34 +50,36 @@ def call() {
     echo inputCOOKBOOKVERSION
     echo inputCHEFVERSION
 
-    dir ("${inputCOOKBOOKNAME}") {
-        git branch: 'master',
-            credentialsId: 'd8135cad-2efa-46fa-bfb5-4aabdf9e2953',
-            url: "${cookbookRepo}"
-        withCredentials([usernamePassword(credentialsId: 'd8135cad-2efa-46fa-bfb5-4aabdf9e2953', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-        env.GITHUB_TOKEN = "$PASSWORD"
-        env.USERNAME = "$USERNAME"
+    node {
+        dir ("${inputCOOKBOOKNAME}") {
+            git branch: 'master',
+                credentialsId: 'd8135cad-2efa-46fa-bfb5-4aabdf9e2953',
+                url: "${cookbookRepo}"
+            withCredentials([usernamePassword(credentialsId: 'd8135cad-2efa-46fa-bfb5-4aabdf9e2953', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            env.GITHUB_TOKEN = "$PASSWORD"
+            env.USERNAME = "$USERNAME"
+            }
         }
-    }
 
-    sh  """
-        cd ${inputCOOKBOOKNAME}
-        rm -rf .git
-        mv _Jenkinsfile Jenkinsfile
-        find . -type f -print0 | xargs -0 sed -i '' 's/COOKBOOKNAME/${inputCOOKBOOKNAME}/g'\n
-        find . -type f -print0 | xargs -0 sed -i '' 's/SUPPORTS/${inputSUPPORTS}/g'\n
-        find . -type f -print0 | xargs -0 sed -i '' 's/MAINTAINER/${inputMAINTAINER}/g'\n
-        find . -type f -print0 | xargs -0 sed -i '' 's/MAINTAINER_EMAIL/${inputMAINTAINER_EMAIL}/g'\n
-        find . -type f -print0 | xargs -0 sed -i '' 's/LICENSE/${inputLICENSE}/g'\n
-        find . -type f -print0 | xargs -0 sed -i '' 's/SHORTDESCRIPTION/${inputSHORTDESCRIPTION}/g'\n
-        find . -type f -print0 | xargs -0 sed -i '' 's/LONGDESCRIPTION/${inputLONGDESCRIPTION}/g'\n
-        find . -type f -print0 | xargs -0 sed -i '' 's/COOKBOOKVERSION/${inputCOOKBOOKVERSION}/g'\n
-        find . -type f -print0 | xargs -0 sed -i '' 's/CHEFVERSION/${inputCHEFVERSION}/g'\n
-        pwd
-        git init
-        git add .
-        git commit -m "Initial commit of ${inputCOOKBOOKNAME} by Jenkins"
-        /usr/local/bin/hub create
-        git push --set-upstream origin master
-        """
+        sh  """
+            cd ${inputCOOKBOOKNAME}
+            rm -rf .git
+            mv _Jenkinsfile Jenkinsfile
+            find . -type f -print0 | xargs -0 sed -i '' 's/COOKBOOKNAME/${inputCOOKBOOKNAME}/g'\n
+            find . -type f -print0 | xargs -0 sed -i '' 's/SUPPORTS/${inputSUPPORTS}/g'\n
+            find . -type f -print0 | xargs -0 sed -i '' 's/MAINTAINER/${inputMAINTAINER}/g'\n
+            find . -type f -print0 | xargs -0 sed -i '' 's/MAINTAINER_EMAIL/${inputMAINTAINER_EMAIL}/g'\n
+            find . -type f -print0 | xargs -0 sed -i '' 's/LICENSE/${inputLICENSE}/g'\n
+            find . -type f -print0 | xargs -0 sed -i '' 's/SHORTDESCRIPTION/${inputSHORTDESCRIPTION}/g'\n
+            find . -type f -print0 | xargs -0 sed -i '' 's/LONGDESCRIPTION/${inputLONGDESCRIPTION}/g'\n
+            find . -type f -print0 | xargs -0 sed -i '' 's/COOKBOOKVERSION/${inputCOOKBOOKVERSION}/g'\n
+            find . -type f -print0 | xargs -0 sed -i '' 's/CHEFVERSION/${inputCHEFVERSION}/g'\n
+            pwd
+            git init
+            git add .
+            git commit -m "Initial commit of ${inputCOOKBOOKNAME} by Jenkins"
+            /usr/local/bin/hub create
+            git push --set-upstream origin master
+            """
+    }
 }
