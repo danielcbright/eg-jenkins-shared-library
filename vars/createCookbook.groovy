@@ -1,8 +1,4 @@
 def call() {
-    withCredentials([usernamePassword(credentialsId: 'd8135cad-2efa-46fa-bfb5-4aabdf9e2953', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-    env.GITHUB_TOKEN = "$PASSWORD"
-    env.USERNAME = "$USERNAME"
-    }
     def userInput = input(
         id: 'userInput', message: 'Enter cookbook information:?',
         parameters: [
@@ -54,9 +50,15 @@ def call() {
     echo inputCOOKBOOKVERSION
     echo inputCHEFVERSION
 
-    sh "git clone https://github.com/danielcbright/eg-cookbook-template.git"
-    sh "ls -alt"
-    sh "mv -T eg-cookbook-template/ ${inputCOOKBOOKNAME}/"
+    dir ("${inputCOOKBOOKNAME}") {
+        git branch: 'master',
+            credentialsId: 'd8135cad-2efa-46fa-bfb5-4aabdf9e2953',
+            url: "${cookbookRepo}"
+        withCredentials([usernamePassword(credentialsId: 'd8135cad-2efa-46fa-bfb5-4aabdf9e2953', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+        env.GITHUB_TOKEN = "$PASSWORD"
+        env.USERNAME = "$USERNAME"
+        }
+    }
 
     sh  """
         cd ${inputCOOKBOOKNAME}
