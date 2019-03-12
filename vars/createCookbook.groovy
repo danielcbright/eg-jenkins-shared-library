@@ -59,10 +59,8 @@ def call() {
             env.GITHUB_TOKEN = "$PASSWORD"
             env.USERNAME = "$USERNAME"
             }
-        }
 
         sh  """
-            cd ${inputCOOKBOOKNAME}
             rm -rf .git
             mv _Jenkinsfile Jenkinsfile
             find . -type f -print0 | xargs -0 sed -i 's/COOKBOOKNAME/${inputCOOKBOOKNAME}/g'\n
@@ -80,8 +78,9 @@ def call() {
             git add .
             git commit -m "Initial commit of ${inputCOOKBOOKNAME} by Jenkins"
             /usr/local/bin/hub create
-            git remote set-url origin https://\$USERNAME:\$GITHUB_TOKEN@github.com/danielcbright/${$inputCOOKBOOKNAME}.git
-            git push --set-upstream origin master
             """
+        sh "git remote set-url origin https://$USERNAME:$GITHUB_TOKEN@github.com/danielcbright/${$inputCOOKBOOKNAME}.git"
+        sh "git push --set-upstream origin master"
+        }
     }
 }
