@@ -60,8 +60,8 @@ def call() {
             env.USERNAME = "$USERNAME"
             }
 
-        issuesURL = "https:\/\/github.com\/danielcbright\/${inputCOOKBOOKNAME}\/issues"
-        sourceURL = "https:\/\/github.com\/danielcbright\/${inputCOOKBOOKNAME}"
+        issuesURL = """https:\\/\\/github.com\\/danielcbright/\\${inputCOOKBOOKNAME}\\/issues"""
+        sourceURL = """https:\\/\\/github.com\\/danielcbright\\/${inputCOOKBOOKNAME}"""
 
         sh  """
             rm -rf .git
