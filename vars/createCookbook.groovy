@@ -54,9 +54,11 @@ def call() {
     echo inputCOOKBOOKVERSION
     echo inputCHEFVERSION
 
+    sh "git clone https://github.com/danielcbright/eg-cookbook-template.git"
+    sh "ls -alt"
+    sh "mv -T eg-cookbook-template/ ${inputCOOKBOOKNAME}/"
+
     sh  """
-        git clone https://github.com/danielcbright/eg-cookbook-template.git
-        mv -T eg-cookbook-template/ ${inputCOOKBOOKNAME}/
         cd ${inputCOOKBOOKNAME}
         rm -rf .git
         mv _Jenkinsfile Jenkinsfile
