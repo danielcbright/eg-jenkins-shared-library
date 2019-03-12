@@ -54,7 +54,7 @@ def call() {
         dir ("${inputCOOKBOOKNAME}") {
             git branch: 'master',
                 credentialsId: 'd8135cad-2efa-46fa-bfb5-4aabdf9e2953',
-                url: "${cookbookRepo}"
+                url: "https://github.com/danielcbright/eg-cookbook-template.git"
             withCredentials([usernamePassword(credentialsId: 'd8135cad-2efa-46fa-bfb5-4aabdf9e2953', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
             env.GITHUB_TOKEN = "$PASSWORD"
             env.USERNAME = "$USERNAME"
