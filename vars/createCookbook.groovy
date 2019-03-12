@@ -1,5 +1,4 @@
 def call() {
-    deleteDir()
     def userInput = input(
         id: 'userInput', message: 'Enter cookbook information:?',
         parameters: [
