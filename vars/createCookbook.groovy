@@ -75,6 +75,7 @@ def call() {
             find . -type f -print0 | xargs -0 sed -i 's/COOKBOOKVERSION/${inputCOOKBOOKVERSION}/g'\n
             find . -type f -print0 | xargs -0 sed -i 's/CHEFVERSION/${inputCHEFVERSION}/g'\n
             pwd
+            git config --global hub.protocol https
             git init
             git add .
             git commit -m "Initial commit of ${inputCOOKBOOKNAME} by Jenkins"
