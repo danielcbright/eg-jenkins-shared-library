@@ -34,7 +34,7 @@ def call() {
         inputCOOKBOOKNAME       = userInput.COOKBOOKNAME?:''
         inputSUPPORTS           = userInput.SUPPORTS?:''
         inputMAINTAINER         = userInput.MAINTAINER?:''
-        inputMAINTAINER_EMAIL   = userInput.MAINTAINEREMAIL?:''
+        inputMAINTAINEREMAIL   = userInput.MAINTAINEREMAIL?:''
         inputLICENSE            = userInput.LICENSE?:''
         inputSHORTDESCRIPTION   = userInput.SHORTDESCRIPTION?:''
         inputLONGDESCRIPTION    = userInput.LONGDESCRIPTION?:''
