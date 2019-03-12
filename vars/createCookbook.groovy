@@ -75,8 +75,10 @@ def call() {
             find . -type f -print0 | xargs -0 sed -i 's/LONGDESCRIPTION/${inputLONGDESCRIPTION}/g'\n
             find . -type f -print0 | xargs -0 sed -i 's/COOKBOOKVERSION/${inputCOOKBOOKVERSION}/g'\n
             find . -type f -print0 | xargs -0 sed -i 's/CHEFVERSION/${inputCHEFVERSION}/g'\n
-            find . -type f -print0 | xargs -0 sed -i \"s/ISSUESURL/\'${issuesURL}\'/g\"\n
-            find . -type f -print0 | xargs -0 sed -i \"s/SOURCEURL/\'${sourceURL}\'/g\"\n
+        """
+        sh """find . -type f -print0 | xargs -0 sed -i "s/ISSUESURL/'${issuesURL}'/g"\n"""
+        sh """find . -type f -print0 | xargs -0 sed -i "s/SOURCEURL/'${sourceURL}'/g"\n"""
+        sh """
             pwd
             git config --global hub.protocol https
             git init
