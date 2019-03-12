@@ -60,8 +60,8 @@ def call() {
             env.USERNAME = "$USERNAME"
             }
 
-        issuesURL = "'https://github.com/danielcbright/${inputCOOKBOOKNAME}/issues'"
-        sourceURL = "'https://github.com/danielcbright/${inputCOOKBOOKNAME}''"
+        issuesURL = "https://github.com/danielcbright/${inputCOOKBOOKNAME}/issues"
+        sourceURL = "https://github.com/danielcbright/${inputCOOKBOOKNAME}"
 
         sh  """
             rm -rf .git
@@ -69,7 +69,7 @@ def call() {
             find . -type f -print0 | xargs -0 sed -i 's/COOKBOOKNAME/${inputCOOKBOOKNAME}/g'\n
             find . -type f -print0 | xargs -0 sed -i 's/SUPPORTS/${inputSUPPORTS}/g'\n
             find . -type f -print0 | xargs -0 sed -i 's/MAINTAINER/${inputMAINTAINER}/g'\n
-            find . -type f -print0 | xargs -0 sed -i 's/MAINTAINER_EMAIL/${inputMAINTAINER_EMAIL}/g'\n
+            find . -type f -print0 | xargs -0 sed -i 's/MAINTAINER\_EMAIL/${inputMAINTAINER_EMAIL}/g'\n
             find . -type f -print0 | xargs -0 sed -i 's/LICENSE/${inputLICENSE}/g'\n
             find . -type f -print0 | xargs -0 sed -i 's/SHORTDESCRIPTION/${inputSHORTDESCRIPTION}/g'\n
             find . -type f -print0 | xargs -0 sed -i 's/LONGDESCRIPTION/${inputLONGDESCRIPTION}/g'\n
