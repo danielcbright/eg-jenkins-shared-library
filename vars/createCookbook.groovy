@@ -60,8 +60,8 @@ def call() {
             env.USERNAME = "$USERNAME"
             }
 
-        issuesURL = """https://github.com/danielcbright/${inputCOOKBOOKNAME}/issues"""
-        sourceURL = """https://github.com/danielcbright/${inputCOOKBOOKNAME}"""
+        issuesURL = "https://github.com/danielcbright/${inputCOOKBOOKNAME}/issues"
+        sourceURL = "https://github.com/danielcbright/${inputCOOKBOOKNAME}"
 
         sh  """
             rm -rf .git
@@ -75,8 +75,8 @@ def call() {
             find . -type f -print0 | xargs -0 sed -i 's/LONGDESCRIPTION/${inputLONGDESCRIPTION}/g'\n
             find . -type f -print0 | xargs -0 sed -i 's/COOKBOOKVERSION/${inputCOOKBOOKVERSION}/g'\n
             find . -type f -print0 | xargs -0 sed -i 's/CHEFVERSION/${inputCHEFVERSION}/g'\n
-            find . -type f -print0 | xargs -0 sed -i "s/ISSUESURL/'${issuesURL}'/g"\n
-            find . -type f -print0 | xargs -0 sed -i "s/SOURCEURL/'${sourceURL}'/g"\n
+            find . -type f -print0 | xargs -0 sed -i \\"s/ISSUESURL/'${issuesURL}'/g\\"\n
+            find . -type f -print0 | xargs -0 sed -i \\"s/SOURCEURL/'${sourceURL}'/g\\"\n
             pwd
             git config --global hub.protocol https
             git init
