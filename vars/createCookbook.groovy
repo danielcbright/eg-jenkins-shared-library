@@ -14,7 +14,7 @@ def call() {
                         name: 'MAINTAINER'),
                 string(defaultValue: 'None',
                         description: 'Maintainer email',
-                        name: 'MAINTAINER_EMAIL'),
+                        name: 'MAINTAINEREMAIL'),
                 string(defaultValue: 'None',
                         description: 'License type (https://docs.chef.io/config_rb_metadata.html under "license" section)',
                         name: 'LICENSE'),
@@ -34,7 +34,7 @@ def call() {
         inputCOOKBOOKNAME       = userInput.COOKBOOKNAME?:''
         inputSUPPORTS           = userInput.SUPPORTS?:''
         inputMAINTAINER         = userInput.MAINTAINER?:''
-        inputMAINTAINER_EMAIL   = userInput.MAINTAINER_EMAIL?:''
+        inputMAINTAINER_EMAIL   = userInput.MAINTAINEREMAIL?:''
         inputLICENSE            = userInput.LICENSE?:''
         inputSHORTDESCRIPTION   = userInput.SHORTDESCRIPTION?:''
         inputLONGDESCRIPTION    = userInput.LONGDESCRIPTION?:''
@@ -44,7 +44,7 @@ def call() {
         echo inputCOOKBOOKNAME
         echo inputSUPPORTS
         echo inputMAINTAINER
-        echo inputMAINTAINER_EMAIL
+        echo inputMAINTAINEREMAIL
         echo inputLICENSE
         echo inputSHORTDESCRIPTION
         echo inputLONGDESCRIPTION
@@ -69,7 +69,7 @@ def call() {
             find . -type f -print0 | xargs -0 sed -i 's/COOKBOOKNAME/${inputCOOKBOOKNAME}/g'\n
             find . -type f -print0 | xargs -0 sed -i 's/SUPPORTS/${inputSUPPORTS}/g'\n
             find . -type f -print0 | xargs -0 sed -i 's/MAINTAINER/${inputMAINTAINER}/g'\n
-            find . -type f -print0 | xargs -0 sed -i 's/MAINTAINER\\_EMAIL/${inputMAINTAINER_EMAIL}/g'\n
+            find . -type f -print0 | xargs -0 sed -i 's/MAINTAINEREMAIL/${inputMAINTAINEREMAIL}/g'\n
             find . -type f -print0 | xargs -0 sed -i 's/LICENSE/${inputLICENSE}/g'\n
             find . -type f -print0 | xargs -0 sed -i 's/SHORTDESCRIPTION/${inputSHORTDESCRIPTION}/g'\n
             find . -type f -print0 | xargs -0 sed -i 's/LONGDESCRIPTION/${inputLONGDESCRIPTION}/g'\n
