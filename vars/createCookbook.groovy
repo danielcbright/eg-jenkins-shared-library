@@ -80,10 +80,8 @@ def call() {
             git add .
             git commit -m "Initial commit of ${inputCOOKBOOKNAME} by Jenkins"
             /usr/local/bin/hub create
-            git push
+            git remote set-url origin https://$USERNAME:$GITHUB_TOKEN@github.com/danielcbright/${$inputCOOKBOOKNAME}.git
+            git push --set-upstream origin master
             """
-            ///usr/local/bin/hub remote set-url origin https://\$GITHUB_TOKEN:x-oauth-basic@github.com/danielcbright/${$inputCOOKBOOKNAME}.git
-            //git push --set-upstream origin master
-            //"""
     }
 }
