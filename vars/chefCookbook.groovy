@@ -51,9 +51,10 @@ pipeline {
               }
               if (existsOnServer) {
                 echo "TRUE"
-                existsOnServer = "true"
+                existsOnServer = 'true'
               } else if (!existsOnServer) {
                 echo "FALSE"
+                existsOnServer = 'false'
               }
             }
           }
@@ -116,7 +117,7 @@ pipeline {
         not {
           allOf {
             branch 'master'
-            expression { existsOnServer == "true" }
+            expression { existsOnServer == 'true' }
           }
         }
       }
