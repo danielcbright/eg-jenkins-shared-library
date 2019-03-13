@@ -49,6 +49,11 @@ pipeline {
                 cookbookVersion = "${z}"
                 existsOnServer = true
               }
+              if (existsOnServer) {
+                echo "TRUE"
+              } else if (!existsOnServer) {
+                echo "FALSE"
+              }
             }
           }
         }
@@ -110,7 +115,7 @@ pipeline {
         not {
           allOf {
             branch 'master'
-            expression { existsOnServer == true }
+            expression { existsOnServer }
           }
         }
       }
