@@ -47,6 +47,7 @@ pipeline {
                 (v, z) = cookbookInfo.split(':')
                 cookbookName = "${v}"
                 cookbookVersion = "${z}"
+                existsOnServer = true
               }
             }
           }
