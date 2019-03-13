@@ -34,12 +34,10 @@ def call () {
         if ( cookbookHighestVersionChef.contains("Cannot") ) {
             echo "Cookbook not on Chef Server, will prompt to upload"
             returnText = "NOT ON SERVER"
-        }
-    } else {
-        if (env.BRANCH_NAME == "master") {
+        } else (env.BRANCH_NAME == "master") {
             echo "Cookbook on Chef Server already, this is the master branch, so not prompting to upload"
             returnText = "${cookbookName}:${cookbookVersion}"
         } 
-    }
+    } 
     return returnText
 }
