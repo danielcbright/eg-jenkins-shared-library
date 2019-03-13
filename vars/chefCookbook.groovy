@@ -2,6 +2,7 @@ def call() {
   def prInfo = []
   def String cookbookName = ""
   def String cookbookVersion = ""
+  def String existsOnServer = null
 pipeline {
   agent any
   environment {
@@ -33,12 +34,7 @@ pipeline {
             stash includes: "cookbook.tar.gz", name: 'cookbook'
         }
     }
-    stage('PR Validation') {
-      when {
-        not {
-          branch 'master'
-        }
-      }
+    stage('Cookbook Version Validation') {
       parallel {
         stage('validate metadata.rb') {
           steps {
@@ -107,7 +103,10 @@ pipeline {
     stage('Publish Cookbook & Merge PR to Master') {
       when {
         not {
-          branch 'master'
+          allOf {
+            branch 'master'
+            expression { existsOnServer == true }
+          }
         }
       }
       steps {
