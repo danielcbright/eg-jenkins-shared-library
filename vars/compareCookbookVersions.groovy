@@ -21,6 +21,7 @@ def call () {
             ).trim()
         }
     }
+    echo cookbookHighestVersionChef
     if (env.BRANCH_NAME != "master") {
         if ( cookbookVersion > cookbookHighestVersionChef ) {
             echo "PASS: local cookbook version [${cookbookVersion}] is higher than Chef Server version [${cookbookHighestVersionChef}]"
