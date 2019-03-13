@@ -41,12 +41,12 @@ pipeline {
             unstash 'cookbook'
             script {
               cookbookInfo = compareCookbookVersions()
-              if ( cookbookInfo != "NOT ON SERVER" ) {
+              if ( cookbookInfo.contains("NOT ON SERVER") ) {
+                existsOnServer = false
+              } else {
                 (v, z) = cookbookInfo.split(':')
                 cookbookName = "${v}"
                 cookbookVersion = "${z}"
-              } else {
-                existsOnServer = false
               }
             }
           }
