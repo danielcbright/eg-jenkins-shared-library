@@ -17,13 +17,13 @@ def call () {
         env.SSL_CERT_DIR= "${workspace}/.chef/trusted_certs/"
         script {
             cookbookHighestVersionChef = sh (
-                script: "knife cookbook show ${cookbookName} | awk '{print \$2;}'",
+                script: "knife cookbook show ${cookbookName} 2>&1 | awk '{print \$2;}'",
                 returnStdout: true
             ).trim()
         }
     }
     echo cookbookHighestVersionChef
-    if (env.BRANCH_NAME != "master" && cookbookHighestVersionChef != null) {
+    if (env.BRANCH_NAME != "master" && !cookbookHighestVersionChef.contains("Cannot")) {
         if ( cookbookVersion > cookbookHighestVersionChef ) {
             echo "PASS: local cookbook version [${cookbookVersion}] is higher than Chef Server version [${cookbookHighestVersionChef}]"
             returnText = "${cookbookName}:${cookbookVersion}"
@@ -31,7 +31,7 @@ def call () {
             error "FAIL: local cookbook version [${cookbookVersion}] is NOT higher than Chef Server version [${cookbookHighestVersionChef}]"
         }
     } else {
-        if ( cookbookHighestVersionChef == null ) {
+        if ( cookbookHighestVersionChef.contains("Cannot") ) {
             echo "Cookbook not on Chef Server, will prompt to upload"
             returnText = "NOT ON SERVER"
         }
