@@ -1,4 +1,5 @@
 def call () {
+    def returnText = ""
     echo "Check if version in metadata.rb is higher than what's currently on the Chef Server"
     script {
         cookbookName = sh (
@@ -22,17 +23,18 @@ def call () {
         }
     }
     echo cookbookHighestVersionChef
-    if (env.BRANCH_NAME != "master") {
+    if (env.BRANCH_NAME != "master" && cookbookHighestVersionChef != null) {
         if ( cookbookVersion > cookbookHighestVersionChef ) {
             echo "PASS: local cookbook version [${cookbookVersion}] is higher than Chef Server version [${cookbookHighestVersionChef}]"
-            return "${cookbookName}:${cookbookVersion}"
+            returnText = "${cookbookName}:${cookbookVersion}"
         } else {
             error "FAIL: local cookbook version [${cookbookVersion}] is NOT higher than Chef Server version [${cookbookHighestVersionChef}]"
         }
     } else {
         if ( cookbookHighestVersionChef == null ) {
             echo "Cookbook not on Chef Server, will prompt to upload"
-            return "NOT ON SERVER"
+            returnText = "NOT ON SERVER"
         }
-    }
+    } 
+    return returnText
 }
