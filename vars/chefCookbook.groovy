@@ -41,21 +41,10 @@ pipeline {
             unstash 'cookbook'
             script {
               cookbookInfo = compareCookbookVersions()
-              if ( cookbookInfo.contains("NOT ON SERVER") ) {
-                existsOnServer = false
-              } else {
-                (v, z) = cookbookInfo.split(':')
-                cookbookName = "${v}"
-                cookbookVersion = "${z}"
-                existsOnServer = true
-              }
-              if (existsOnServer) {
-                echo "TRUE"
-                existsOnServer = 'true'
-              } else if (!existsOnServer) {
-                echo "FALSE"
-                existsOnServer = 'false'
-              }
+              (v, z, exists) = cookbookInfo.split(':')
+              cookbookName = "${v}"
+              cookbookVersion = "${z}"
+              existsOnServer = "${exists}"
             }
           }
         }
@@ -117,7 +106,7 @@ pipeline {
         not {
           allOf {
             branch 'master'
-            expression { existsOnServer == 'true' }
+            expression { existsOnServer == 'Y' }
           }
         }
       }
