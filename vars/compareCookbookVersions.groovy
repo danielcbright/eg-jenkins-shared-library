@@ -36,7 +36,7 @@ def call () {
             returnText = "${cookbookName}:${cookbookVersion}:N"
         } else 
             if (env.BRANCH_NAME == "master") {
-            echo "Cookbook on Chef Server already, this is the master branch, so not prompting to upload"
+            echo "Cookbook on Chef Server already, this is the master branch, so not prompting to upload, skipping remaining steps..."
             returnText = "${cookbookName}:${cookbookVersion}:Y"
         } 
     } 

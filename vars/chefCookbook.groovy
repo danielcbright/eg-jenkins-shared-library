@@ -51,6 +51,14 @@ pipeline {
       }
     }
     stage('Style Lint (cookstyle)') {
+      when {
+        not {
+          allOf {
+            branch 'master'
+            expression { existsOnServer == 'Y' }
+          }
+        }
+      }
       parallel {
         stage('libraries') {
           steps {
@@ -83,6 +91,14 @@ pipeline {
       }
     }
     stage('Syntax & Logic Test') {
+      when {
+        not {
+          allOf {
+            branch 'master'
+            expression { existsOnServer == 'Y' }
+          }
+        }
+      }
       parallel {
         stage('foodcritic') {
           steps {
@@ -93,6 +109,14 @@ pipeline {
       }
     }
     stage('convergence & inspec test') {
+      when {
+        not {
+          allOf {
+            branch 'master'
+            expression { existsOnServer == 'Y' }
+          }
+        }
+      }
       steps {
         echo 'performing test kitchen convergence test'
         deleteDir()
