@@ -15,12 +15,6 @@ pipeline {
     stage('Prepping Environment') {
         steps {
             envFunctionsPrep()
-            sh '''
-            base=$(basename $PWD)
-            tar -czf cookbook.tar.gz $base
-            '''
-            sh 'mv ../cookbook.tar.gz ./'
-            stash includes: "cookbook.tar.gz", name: 'cookbook'
         }
     }
     stage('Cookbook Version Validation') {

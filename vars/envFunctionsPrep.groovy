@@ -5,6 +5,7 @@ def call() {
         sh "knife ssl fetch"
         sh '''
             base=$(basename $PWD)
+            cd ..
             tar -czf cookbook.tar.gz $base
             '''
         stash includes: ".chef/trusted_certs/**", name: 'sslCert'
