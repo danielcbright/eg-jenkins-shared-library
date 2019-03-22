@@ -14,21 +14,10 @@ pipeline {
   stages {
     stage('Prepping Environment') {
         steps {
-            echo "Checking for changed files in PR"
-            script {
-                changedFiles = getFileChanges()
-            }
-            sh 'touch changedFiles.txt'
-            sh "echo \"${changedFiles}\" > changedFiles.txt"
-            sh 'cat changedFiles.txt'
-            stash includes: "changedFiles.txt", name: 'changedFiles'
             envFunctionsPrep()
             sh '''
             base=$(basename $PWD)
-            cd ..
             tar -czf cookbook.tar.gz $base
-            ls -alt
-            pwd
             '''
             sh 'mv ../cookbook.tar.gz ./'
             stash includes: "cookbook.tar.gz", name: 'cookbook'
@@ -122,7 +111,7 @@ pipeline {
         deleteDir()
         unstash 'cookbook'
         sh 'tar -xvf cookbook.tar.gz --strip 1'
-        chefTestKitchen()
+        //chefTestKitchen()
       }
     }
     stage('Publish Cookbook & Merge PR to Master') {

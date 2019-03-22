@@ -3,7 +3,12 @@ def call() {
         def rubyContent = libraryResource('envFunctions.rb')
         writeFile(file: 'envFunctions.rb', text: rubyContent)
         sh "knife ssl fetch"
+        sh '''
+            base=$(basename $PWD)
+            tar -czf cookbook.tar.gz $base
+            '''
         stash includes: ".chef/trusted_certs/**", name: 'sslCert'
-        sh "env"
+        sh 'mv ../cookbook.tar.gz ./'
+        stash includes: "cookbook.tar.gz", name: 'cookbook'
     }
 }
