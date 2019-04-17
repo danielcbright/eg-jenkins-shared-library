@@ -105,7 +105,7 @@ pipeline {
         deleteDir()
         unstash 'cookbook'
         sh 'tar -xvf cookbook.tar.gz --strip 1'
-        chefTestKitchen()
+        //chefTestKitchen()
       }
     }
     stage('Publish Cookbook & Merge PR to Master') {
